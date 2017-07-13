@@ -1,0 +1,37 @@
+.full button span {
+  background-color: limegreen;
+  border-radius: 32px;
+  color: black;
+}
+.partially button span {
+  background-color: orange;
+  border-radius: 32px;
+  color: black;
+}
+ .proyecto {
+     background: url(../imgs/caribe.jpg);      
+     background-size: 100%;
+     background-repeat: no-repeat;
+     background-attachment: fixed; /***************************** NO FUNCIONÓ --- CHECAR BIEN BIEN*/
+}
+.navbar-inverse {            
+    border-color: #fff;
+    opacity: 0.8;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+.top-nav>li>a {
+    color: #fff;
+}
+.nav-tabs>li.active>a,.nav-tabs>li>a{
+    color: white;
+    cursor: default;
+    background-color: black;
+    border: none;
+    border-bottom-color: transparent;
+}
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: none;
+    border-radius: 0;
+}
