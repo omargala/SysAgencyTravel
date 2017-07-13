@@ -171,4 +171,9 @@ class Localizador extends CI_Controller {
 		
 		$this->localizador_model->updateSaldoEnEdoCta($data);
 	}
+	public function getLocalizadores(){
+		$this->load->model('localizador_model');
+		$data = $this->localizador_model->getAllLocalizadores();
+		echo json_encode($data);
+	}
 }

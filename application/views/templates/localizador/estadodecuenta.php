@@ -1,4 +1,7 @@
 
+<link rel="stylesheet" href="<?=base_url(); ?>assets/autocomplete/easy-autocomplete.min.css">
+<link rel="stylesheet" href="<?=base_url(); ?>assets/autocomplete/easy-autocomplete.themes.min.css">
+<script src="<?=base_url(); ?>assets/autocomplete/jquery.easy-autocomplete.js"></script>
 <style>
     .panel-contenedor-interno{
       border-radius: 4px; 
@@ -14,8 +17,8 @@
                     <div class="panel-contenedor-interno">
                         <form action="" class="form-inline">
                             <div class="form-group">
-                                <label for="localizador">Buscar:</label>
-                                <input id="localizador" class="form-control" placeholder="Clave o Nombre">
+                                <input id="localizador" class="form-control" placeholder="Buscar por Clave o Nombre">
+                                <button class="form-control btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
                             </div>
                         </form>
                     </div>
@@ -160,8 +163,7 @@
         $("#montoabono").val("");
         $("#mododepagoabono").val("");
         $("#abonadopor").val("");
-        $("#recibidopor").val("");
-        
+        $("#recibidopor").val("");   
     }
     function buscar(id){
         alert(id);
@@ -397,7 +399,33 @@
             return false;
         };
     })
-    $(document).ready(function(){       
-        
+    $(document).ready(function(){ 
+        base_url = "<?=base_url(); ?>";
+        var url = base_url +"Localizador/getLocalizadores";         
+        var options = {
+          url: function(phrase) {
+            return url;
+          },
+
+          getValue: function(element) {
+            return element.cvelocalizador + "-" + element.titular;
+          },
+
+          ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+              dataType: "json"
+            }
+          },
+
+          preparePostData: function(data) {
+            data.phrase = $("#localizador").val();
+            return data;
+          },
+
+          requestDelay: 400
+        };       
+        $('#localizador').easyAutocomplete(options);
     });
 </script> 

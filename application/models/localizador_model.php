@@ -127,7 +127,14 @@ class localizador_model extends CI_Model {
 			'statusedocta'  => $result['statusedocta'] 
 		);
 		$this->db->where('idedocta',$result['idedocta']);   
-        $this->db->update('tbedocta',$data);
+        $this->db->update('tbedocta',$data->result());
+	}
+	function getAllLocalizadores(){
+		$this->db->select("*");
+		$this->db->from("tblocalizadores");
+		$query = $this->db->get();
+		if ($query->num_rows()>0) return $query->result();
+		return false;
 	}
 }
 ?>
