@@ -136,5 +136,13 @@ class localizador_model extends CI_Model {
 		if ($query->num_rows()>0) return $query->result();
 		return false;
 	}
+	function getIdLocalizadorCve($data){
+		$this->db->select("idlocalizador");
+		$this->db->from("tblocalizadores");
+		$this->db->where("cvelocalizador",$data['cvelocalizador']);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) return $query->result();
+		return false;
+	}
 }
 ?>

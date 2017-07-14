@@ -15,12 +15,14 @@
             <h1 class="page-header">Estado de Cuenta</h1>            
                 <div class="panel panel-default">
                     <div class="panel-contenedor-interno">
-                        <form action="" class="form-inline">
-                            <div class="form-group">
-                                <input id="localizador" class="form-control" placeholder="Buscar por Clave o Nombre">
-                                <button class="form-control btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        <div class="row">
+                            <div class="form-inline col-md-12">
+                                <div class="form-group">
+                                    <input id="localizador" class="form-control" placeholder="Buscar por Clave o Nombre">
+                                </div>
+                                <button id="search" type="button" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>            
                 <div>
@@ -166,7 +168,6 @@
         $("#recibidopor").val("");   
     }
     function buscar(id){
-        alert(id);
         datos={
             'id': id,
             'tipo':'1'
@@ -185,12 +186,9 @@
                     console.log(registro);
                     var indicadorPagado = false;
 
-                    if(registro.statuspago==1){
-                        indicadorPagado = true;
-                    }else{
-                        indicadorPagado = false;
-                    }
-                    alert(registro.statuspago);
+                  
+                    if(registro.statuspago==1){$('#alertaPagado').removeClass('hide');}
+                    //alert(registro.statuspago);
                     $('#localizador').val(registro.cvelocalizador);
                     $('#clave').html(registro.cvelocalizador);
                     $('#nombre').html(registro.titular);
@@ -215,7 +213,7 @@
                     $('#celabono').focus();
                     getTotalPagado(registro.idedocta);                    
                     getAbonosLocalizador(registro.idedocta);
-                    if(indicadorPagado==true){$('#alertaPagado').removeClass('hide');}
+                   
                 }
             },
             error: function(error){
@@ -325,8 +323,8 @@
     function getAbonosLocalizador(idedocta){
         console.log("getAbonosLocalizador"+idedocta);
         var registro={};
-        var base_url = "http://localhost:8005/SysAgencyTravel/";
-        var url = base_url+"Localizador/getAbonos"; // the script where you handle the form input.     
+        var base_url = "<?=base_url();?>";
+        var url = base_url + "Localizador/getAbonos"; // the script where you handle the form input.     
         var cadena ="";
         var datos = {
             'idedocta' : idedocta
@@ -399,6 +397,39 @@
             return false;
         };
     })
+    function getIdLocalizador(cve){
+        alert("cve"+cve);
+        var registro={};
+        var base_url = "<?=base_url(); ?>";
+        var url = base_url+"Localizador/getIdLocalizadorbyCve";     
+        var cadena ="";
+        var datos = {
+            'cvelocalizador' : $.trim(cve)
+        }        
+
+        $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: datos,
+                contentType: "application/x-www-form-urlencoded",
+                success: function(data) {     
+                    console.log(data[0].idlocalizador);
+                    buscar(data[0].idlocalizador);
+                },
+                error: function(errorThrown) {
+                    console.log(errorThrown);
+                }   
+            }); 
+    }
+    function getClave(cadena){
+        var inicio = cadena.split(" ",1);
+        return inicio;
+    }
+    $("#search").click(function(){
+        var clave = getClave($("#localizador").val());
+        getIdLocalizador(clave);        
+    })
     $(document).ready(function(){ 
         base_url = "<?=base_url(); ?>";
         var url = base_url +"Localizador/getLocalizadores";         
@@ -408,9 +439,8 @@
           },
 
           getValue: function(element) {
-            return element.cvelocalizador + "-" + element.titular;
-          },
-
+            return element.cvelocalizador + " " + element.titular;
+          },          
           ajaxSettings: {
             dataType: "json",
             method: "POST",
@@ -418,12 +448,10 @@
               dataType: "json"
             }
           },
-
           preparePostData: function(data) {
             data.phrase = $("#localizador").val();
             return data;
           },
-
           requestDelay: 400
         };       
         $('#localizador').easyAutocomplete(options);

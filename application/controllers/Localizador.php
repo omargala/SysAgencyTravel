@@ -176,4 +176,10 @@ class Localizador extends CI_Controller {
 		$data = $this->localizador_model->getAllLocalizadores();
 		echo json_encode($data);
 	}
+	public function getIdLocalizadorbyCve(){
+		$data['cvelocalizador'] = $this->input->post("cvelocalizador");
+		$this->load->model("localizador_model");
+		$result = $this->localizador_model->getIdLocalizadorCve($data);
+		echo json_encode($result);
+	}
 }
