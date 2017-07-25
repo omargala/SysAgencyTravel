@@ -127,7 +127,7 @@ class localizador_model extends CI_Model {
 			'statusedocta'  => $result['statusedocta'] 
 		);
 		$this->db->where('idedocta',$result['idedocta']);   
-        $this->db->update('tbedocta',$data->result());
+        $this->db->update('tbedocta',$data);
 	}
 	function getAllLocalizadores(){
 		$this->db->select("*");
@@ -143,6 +143,18 @@ class localizador_model extends CI_Model {
 		$query = $this->db->get();
 		if ($query->num_rows()>0) return $query->result();
 		return false;
+	}
+	function getAbonoPorId($idabono){
+		$this->db->select('*');
+		$this->db->from('tbdetalleedocta');
+		$this->db->where('idabono',$idabono);
+		$query = $this->db->get();
+		if($query->num_rows()>0) return $query->result();
+		return false;
+	}
+	function updateAbono($data){
+		$this->db->where("idabono",$data['idabono']);
+		$this->db->update("tbdetalleedocta",$data);
 	}
 }
 ?>
