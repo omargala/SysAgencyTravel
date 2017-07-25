@@ -16,7 +16,7 @@ class Localizador extends CI_Controller {
 		$this->load->view('menu');
 		$this->load->view('templates/localizador/opcioneslocalizador');
 		$this->load->view('footer');
-		
+		//-----
 	}
 	public function altaLocalizador()
 	{

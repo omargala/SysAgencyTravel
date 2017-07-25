@@ -36,6 +36,7 @@
             $( "#1" ).text( "Campo monto de abono es obligatorio" ).show().fadeOut( 1000 );
             $('#montoabono').focus();
             return false;
+        // -----
         }
         if($('#mododepagoabono').val()=="mp"){
              $( "#2" ).text( "Seleccione una opción por favor" ).show().fadeOut( 1000 );

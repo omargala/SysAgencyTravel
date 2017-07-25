@@ -12,6 +12,9 @@ class localizador_model extends CI_Model {
 		return false;
 	}
 	function insertLocalizador($data){
+
+
+		
 		$data = array(
 			'cvelocalizador'=> $data['localizador'],
 			'titular'=> $data['titular'],
