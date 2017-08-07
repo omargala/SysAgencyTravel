@@ -75,7 +75,7 @@ class localizador_model extends CI_Model {
 		$this->db->select("*");
 		$this->db->from('tblocalizadores');		
 		$this->db->join('tbedocta', 'tbedocta.cvelocalizador = tblocalizadores.cvelocalizador');
-		$this->db->where('idlocalizador',(int) $id);
+		$this->db->where('tblocalizadores.idlocalizador',(int) $id);
 		$query = $this->db->get();
 		if($query->num_rows()>0) return $query->result();
 		return false;

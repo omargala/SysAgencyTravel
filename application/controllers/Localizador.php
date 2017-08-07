@@ -109,7 +109,6 @@ class Localizador extends CI_Controller {
 			'modopagoabono' => $data->modopagoabono,
 			'statusabono'   => 0
 		);
-		);
 	}
 	public function buscar(){
 		$tipo=$this->input->post('tipo');

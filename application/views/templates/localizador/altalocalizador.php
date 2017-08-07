@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-lg-12">
-                <h2 class="page-header">Alta de Localizador</h2>
+                <h2 class="page-header">Localizadores</h2>
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div id="alerta1" class="alert alert-warning">Ya existe un localizador con esta clave</div> 
                     <div id="alerta2" class="alert alert-success">Los datos se guardaron exitosamente</div>
                     <div class="panel panel-primary">                        
@@ -106,48 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            Localizador mas Reciente
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <th>Clave</th>
-                                                <th>Titular</th>
-                                                <th>Más</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (empty($recientes)){
-                                                    echo '<tr>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td align="center">...</td>
-                                                    </tr>'; 
-
-                                                }else{ 
-                                                    foreach ($recientes as $key) { ?>
-                                                <tr>
-                                                    <td><?=$key->cvelocalizador; ?></td>
-                                                    <td><?=$key->titular; ?></td>
-                                                    <td align="center"><a href="#"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></td>
-                                                </tr> 
-                                                <?php 
-                                                    }
-                                                } 
-                                                ?>                                                                    
-                                            </tbody>
-                                        </table>
-                                    </div>                                   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="lista_localizadores" class="col-lg-6"></div>
             </div>
         </div>        
     </div>                    
@@ -302,6 +261,7 @@
     $(document).ready(function(){
         $("#alerta1").hide();
         $("#alerta2").hide();
+        $('#lista_localizadores').load('<?=base_url();?>Localizador/listaLocalizadores');
     });
 </script> 
 

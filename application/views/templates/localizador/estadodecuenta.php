@@ -255,7 +255,6 @@
                             var status = getStatus(data[i].statusabono);
                             cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
                             cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
-                            cadena=cadena + '<td>'+modopago+'</td>';
                             cadena=cadena + '<td>'+data[i].montoabono+'</td>';
                             cadena=cadena + '<td class="optionsbuttons">'; 
                             cadena=cadena + botonEditar + botonCancelar;                       
@@ -372,7 +371,7 @@
         var base_url = "<?=base_url(); ?>";
         var url = base_url+"Localizador/cancelaAbono"; 
         datos = {
-            'id' = idabono
+            'id' : idabono
         }
         $.ajax({
             url: url,
@@ -408,7 +407,7 @@
                 data: datos,
                 contentType: "application/x-www-form-urlencoded",
                 success: function(data) {     
-
+                    console.log(data);
                     buscar(data[0].idlocalizador);
                 },
                 error: function(errorThrown) {
@@ -659,19 +658,59 @@
                                 Abonos: Detalle
                             </div>
                             <div class="panel-body">
-                                <table id="tablaabonos" class="table table-striped">
-                                    <thead>
-                                        <tr  class="info">
-                                           <th>#</th>
-                                           <th>Fecha Abono</th>
-                                           <th>Modo Pago</th>
-                                           <th>Abono</th>
-                                           <th>...</th>
-                                        </tr>                  
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#NoCancelados" aria-controls="NoCancelados" role="tab" data-toggle="tab">Home</a></li>
+                                        <li role="presentation"><a href="#Cancelados" aria-controls="Cancelados" role="tab" data-toggle="tab">Profile</a></li>
+                                        <li role="presentation"><a href="#Todos" aria-controls="Todos" role="tab" data-toggle="tab">Messages</a></li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="NoCancelados">
+                                            <table id="tablaabonos" class="table table-striped">
+                                                <thead>
+                                                    <tr class="info">
+                                                       <th>#</th>
+                                                       <th>Fecha Abono</th>
+                                                       <th>Abono</th>
+                                                       <th>...</th>
+                                                    </tr>                  
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="Cancelados">
+                                            <table class="table table-strip">
+                                                <thead>
+                                                    <tr class="info">
+                                                        <th>#</th>
+                                                        <th>Fecha Abono</th>
+                                                        <th>Abono</th>
+                                                        <th>...</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="Todos">
+                                            <table class="table table-strip">
+                                                <thead>
+                                                    <tr class="info">
+                                                        <th>#</th>
+                                                        <th>Fecha Abono</th>
+                                                        <th>Abono</th>
+                                                        <th>...</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
