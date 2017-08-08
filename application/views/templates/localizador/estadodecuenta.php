@@ -66,7 +66,7 @@
             'id': id,
             'tipo':'1'
         }
-        base_url = "http://localhost:8005/SysAgencyTravel/";
+        base_url = "<?=base_url(); ?>";
         var url = base_url+"Localizador/Buscar";        
         $.ajax({
             url: url,

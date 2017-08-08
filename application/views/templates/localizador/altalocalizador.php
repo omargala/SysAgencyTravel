@@ -158,11 +158,11 @@
             $('#localizador').focus();
             return;
         }
-        if($('#menores').val()==""){
+        /*if($('#menores').val()==""){
             $( "#12" ).text( "Campo obligatorio" ).show().fadeOut( 1000 );
             $('#localizador').focus();
             return;
-        }
+        }*/
         if($('#localizador').val()<0){
             $( "#1" ).text( "El valor no puede ser menor que cero" ).show().fadeOut( 1000 );
             $('#localizador').focus();
@@ -204,7 +204,7 @@
         e.preventDefault();
         console.log("Submit, " + $('#localizador').val());
         var registro={};
-        base_url = "http://localhost:8005/SysAgencyTravel/";
+        base_url = "<?=base_url(); ?>";
         var url = base_url+"Localizador/registroDatos"; // the script where you handle the form input.     
         if(validacampos()){
             var datos = {
@@ -232,23 +232,17 @@
                     for (var i = data.length - 1; i >= 0; i--) {
                         registro = data[0];                                            
                         if (registro.cvelocalizador == $('#localizador').val()) {    
-                            /*setTimeout(function() {
-                                $("#alerta1").fadeIn(1500);
-                            },3000);*/
                             $("#alerta1").show();
                             $("#alerta1").delay(8000).hide(600);
                             $('#localizador').focus();
                         }                       
                     }   
-                    if(data.mensaje == "OK"){ 
-                        /*                         
-                            setTimeout(function() {
-                                $("#alerta2").fadeIn(1500);
-                            },3000);  */   
-                             $("#alerta2").show();
-                             $("#alerta2").delay(8000).hide(600);
-                             limpiaformulario();
-                             $('#localizador').focus();           
+                    if(data.mensaje == "OK"){
+                            $("#alerta2").show();
+                            $("#alerta2").delay(8000).hide(600);
+                            limpiaformulario();
+                            $('#localizador').focus();
+                            $('#lista_localizadores').load('<?=base_url();?>Localizador/listaLocalizadores');
                     }               
                     console.log(data);
                 },
@@ -264,12 +258,3 @@
         $('#lista_localizadores').load('<?=base_url();?>Localizador/listaLocalizadores');
     });
 </script> 
-
-<!-- 
-$(“#divActualizarContrato_Success”).hide();
-
-En el momento que lo queramos mostrar:
-
-$(“#divActualizarContrato_Success”).show();
-$(“#divActualizarContrato_Success”).delay(8000).hide(600);
--->
