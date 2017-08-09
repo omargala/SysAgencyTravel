@@ -10,7 +10,7 @@
                     <div id="alerta2" class="alert alert-success">Los datos se guardaron exitosamente</div>
                     <div class="panel panel-primary">                        
                         <div class="panel-heading">
-                            Formulario
+                            <strong>Información de localizador</strong>
                         </div>             
                         <div class="panel-body">
                             <div class="row">
@@ -98,6 +98,7 @@
                                             </div>
                                             <div class="form-group" align="right">
                                                 <button id="submitForm" class="btn btn-primary">Guardar</button>
+                                                <button id="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
                                                 <button type="reset" class="btn btn-danger">Cancelar</button>
                                             </div>
                                     </form>
@@ -252,6 +253,12 @@
             }); 
         }      
     });
+    function editarLocalizador(){
+        
+    }
+    $("#guardarCambios").click(function(){
+
+    })
     $(document).ready(function(){
         $("#alerta1").hide();
         $("#alerta2").hide();
