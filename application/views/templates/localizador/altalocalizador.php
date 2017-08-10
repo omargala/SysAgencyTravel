@@ -205,7 +205,7 @@
         e.preventDefault();
         console.log("Submit, " + $('#localizador').val());
         var registro={};
-        base_url = "<?=base_url(); ?>";
+        var base_url = "<?=base_url(); ?>";
         var url = base_url+"Localizador/registroDatos"; // the script where you handle the form input.     
         if(validacampos()){
             var datos = {
@@ -253,8 +253,48 @@
             }); 
         }      
     });
-    function editarLocalizador(){
-        
+    function editarLocalizador(id){
+        alert(id);
+        var data_url = "<?=base_url(); ?>";
+        var url = data_url + "Localizador/buscar";
+        var datos = {
+            "tipo" : 1,
+            "id" : id
+        };
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            data: datos,
+            contentType: "application/x-www-form-urlencoded",
+            success: function(data) {             
+                console.log(data);
+                for (var i = data.length - 1; i >= 0; i--) {
+                    $("#localizador").val(data[i].cvelocalizador);
+                    $("#ttoo").val(data[i].ttoo);
+                    $("#otro").val(data[i].otroespecificacion);
+                    $("#servicio").val(data[i].servicio);
+                    $("#tipotarifa").val(data[i].tipotarifa);
+                    $("#numhabs").val(data[i].numhabs);
+                    $("#titular").val(data[i].titular);
+                    $("#tarifa").val(data[i].tarifapublica);
+                    $("#fechain").val(data[i].fechain);
+                    $("#fechaout").val(data[i].fechaout);
+                    $("#planalimentos").val(data[i].planalimentos);
+                    $("#adultos").val(data[i].adultos);
+                    $("#menores").val(data[i].menores);
+                }
+            },
+            error: function(errorThrown) {
+                console.log(errorThrown);
+            } 
+        });
+    }
+    function cancelarLocalizador(id){
+        alert(id);
+    }
+    function openEstadoCuenta(id){
+        $('#main_localizadores').load('<?=base_url();?>Localizador/edoCuenta/'+id);
     }
     $("#guardarCambios").click(function(){
 

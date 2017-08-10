@@ -24,7 +24,7 @@
 						    		 	<td align="center">
 						    		 		<a class="btn" href="#" onclick='editarLocalizador("<?=$key->idlocalizador; ?>")'><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
 						    		 		<a class="btn" href="#" onclick='cancelarLocalizador("<?=$key->idlocalizador; ?>")''><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
-						    		 		<a class="btn" onclick="goEstadoCuenta()" data-set='<?=$key->idlocalizador; ?>'><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>		
+						    		 		<a class="btn" onclick="openEstadoCuenta(<?=$key->idlocalizador; ?>)"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>		
 						    		 	</td>
 						    	 	</tr>
 						    	<?php 

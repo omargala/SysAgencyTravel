@@ -68,6 +68,7 @@ class Localizador extends CI_Controller {
 		$this->load->view('templates/localizador/pagosyabonos');
 	}
 	public function edoCuenta(){
+		$data['idLocalizadorFiltro'] = $this->uri->segment(3);
 		$this->load->model('localizador_model');
 		$data['cvelocalizadores'] = $this->localizador_model->getClaves();
 		$data['titulares'] = $this->localizador_model->getTitulares();

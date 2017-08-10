@@ -437,6 +437,7 @@
         $("#recibioModal").val("");
         $("#pagoModal").val("");
     }
+   
     $("#modoPagoModal").change(function(){
         if($('#modoPagoModal').val()=="mp"){
             alert("Seleccione un método de pago");
@@ -515,6 +516,10 @@
             requestDelay: 400
         };       
         $('#localizador').easyAutocomplete(options);   
+        <?php if ($idLocalizadorFiltro!="") { ?>
+            var idLocalizadorFiltro = "<?=$idLocalizadorFiltro;?>";
+            buscar(idLocalizadorFiltro);
+         <?php } ?>
     });
 </script> 
 <div id="page-wrapper">
