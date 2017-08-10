@@ -12,9 +12,6 @@ class localizador_model extends CI_Model {
 		return false;
 	}
 	function insertLocalizador($data){
-
-
-		
 		$data = array(
 			'cvelocalizador'=> $data['localizador'],
 			'titular'=> $data['titular'],
@@ -29,18 +26,22 @@ class localizador_model extends CI_Model {
 			'numhabs'=> $data['numhabs'],
 			'adultos'=> $data['adultos'],
 			'menores'=> $data['menores'],
+			'status' => $data['status'],
 			'fechacreacion'=> $data['fechacreacion']
 		);				
 		$this->db->insert('tblocalizadores',$data);
 	}
-
 	function insertEdoCta($data){
-		$data = array(
-			'cvelocalizador' => $data['localizador'], 
+		$dataEdoCta = array(
+			'cvelocalizador' => $data['localizador'],
 			'montooriginal' => $data['tarifa'],
+			'acumulado' => 0,
 			'fechacreacion' => $data['fechacreacion'],
+			'saldo' => 0,
+			'cantidadabonos' => 0,
+			'statusedocta' => $data['status']
 		);
-		$this->db->insert('tbedocta',$data);
+		$this->db->insert('tbedocta',$dataEdoCta);
 	}
 	function likeLocalizador($cvelocalizador){
 		$this->db->select('idlocalizador,cvelocalizador,titular');
@@ -158,6 +159,25 @@ class localizador_model extends CI_Model {
 	function updateAbono($data){
 		$this->db->where("idabono",$data['idabono']);
 		$this->db->update("tbdetalleedocta",$data);
+	}
+	function updateLocalizador($data){
+		$dataUpdate = array(
+			'cvelocalizador' => $data["cvelocalizador"], 
+			'titular' => $data["titular"],
+			'ttoo' => $data["ttoo"],
+			'otroespecificacion' => $data["otroespecificacion"],
+			'tarifapublica' => $data["tarifapublica"],
+			'fechain' => $data["fechain"],
+			'fechaout' => $data["fechaout"],
+			'servicio' => $data["servicio"],
+			'planalimentos' => $data["planalimentos"],
+			'tipotarifa' => $data["tipotarifa"],
+			'numhabs' => $data["numhabs"],
+			'adultos' => $data["adultos"],
+			'menores' => $data["menores"],
+			'statuspagado' => $data[""],
+			'fechacreacion' => $data[""]
+		);
 	}
 }
 ?>

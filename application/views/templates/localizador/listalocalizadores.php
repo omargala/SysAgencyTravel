@@ -2,11 +2,15 @@
     <div class="col-lg-12">
     	<div class="panel panel-primary">
     		<div class="panel-heading"><strong>Lista de Localizadores</strong></div>
-    		<div class="panel-body">   
+    		<div class="panel-body"> 
+    			<div>
+    				<p><strong class="text-primary">A: </strong>Activo. <strong class="text-success">P: </strong>Pagado. <strong class="text-danger">C: </strong>Cancelado</p>
+    			</div>  
     			<div id="table-responsive">
     				<table id="loc" width="100%" class="table table-striped table-bordered table-hover">
 		     			<thead>
 					        <tr class="info"> 
+					        	<th>Status</th>
 						        <th>Clave</th>
 						        <th>Titular</th>      
 						        <th>...</th>
@@ -19,6 +23,11 @@
 					    	 	}else{ 
 					    	 		foreach ($todoslocalizadores as $key) {  ?>	      	 	
 						      	 	<tr class="odd gradeX">
+						      	 		<td align="center"><?php 
+						      	 			if($key->status=="A"){echo "<strong class='text-primary'>".$key->status."</strong>";}; 
+						      	 			if($key->status=="P"){echo "<strong class='text-success'>".$key->status."</strong>";}; 
+						      	 			if($key->status=="C"){echo "<strong class='text-danger'>".$key->status."</strong>";}; 
+						      	 		?></td>
 						    			<td><?=$key->cvelocalizador; ?></td>
 						    			<td><?=$key->titular; ?></td>
 						    		 	<td align="center">

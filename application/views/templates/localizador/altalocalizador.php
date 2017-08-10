@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="form-group" align="right">
                                                 <button id="submitForm" class="btn btn-primary">Guardar</button>
-                                                <button id="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
+                                                <button id="guardarCambios" class="btn btn-primary hidden" data-set="">Guardar Cambios</button>
                                                 <button type="reset" class="btn btn-danger">Cancelar</button>
                                             </div>
                                     </form>
@@ -283,7 +283,11 @@
                     $("#planalimentos").val(data[i].planalimentos);
                     $("#adultos").val(data[i].adultos);
                     $("#menores").val(data[i].menores);
+                    $("#guardarCambios").attr("data-set",data[i].idlocalizador);
                 }
+                $("#submitForm").addClass("hidden");
+                $("#guardarCambios").removeClass("hidden");
+
             },
             error: function(errorThrown) {
                 console.log(errorThrown);
@@ -297,7 +301,44 @@
         $('#main_localizadores').load('<?=base_url();?>Localizador/edoCuenta/'+id);
     }
     $("#guardarCambios").click(function(){
-
+        var id = $("#guardarCambios").attr("data-set");
+        //alert(id);
+        var data_url = "<?=base_url(); ?>";
+        var url = data_url + "Localizador/updateLocalizador";
+        var datos = {
+            id : id,
+            cvelocalizador :$("#localizador").val(),
+            ttoo :$("#ttoo").val(),
+            otroespecificacion : $("#otro").val(),
+            servicio: $("#servicio").val(),
+            tipotarifa : $("#tipotarifa").val(),
+            numhabs : $("#numhabs").val(),
+            titular : $("#titular").val(),
+            tarifapublica : $("#tarifa").val(),
+            fechain : $("#fechain").val(),
+            fechaout : $("#fechaout").val(),
+            planalimentos : $("#planalimentos").val(),
+            adultos : $("#adultos").val(),
+            menores : $("#menores").val()
+        };
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            data: datos,
+            contentType: "application/x-www-form-urlencoded",
+            success: function(data) {    
+                for (var i = data.length - 1; i >= 0; i--) {
+                   
+                }
+                $("#submitForm").removeClass("hidden");
+                $("#guardarCambios").addClass("hidden");
+                $("guardarCambios").attr("data-set","");
+            },
+            error: function(errorThrown) {
+                console.log(errorThrown);
+            } 
+        });
     })
     $(document).ready(function(){
         $("#alerta1").hide();

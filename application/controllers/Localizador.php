@@ -37,7 +37,7 @@ class Localizador extends CI_Controller {
 			echo json_encode($existe);
 		}else{
 			// se puede dar de alta
-			$statuspagado = 0;
+			$statuspagado = "A"; // Cuando se da de alta su status será A = Aplicado
 			$fechacreacion = date("Y-m-d");
 			$data = array(
 				'localizador' => $this->input->post('localizador'), 
@@ -53,7 +53,7 @@ class Localizador extends CI_Controller {
 				'planalimentos' => strtoupper($this->input->post('planalimentos')), 
 				'adultos' => $this->input->post('adultos'), 
 				'menores' => $this->input->post('menores'),
-				'statuspagado' => $statuspagado,
+				'status' => $statuspagado,
 				'fechacreacion' => $fechacreacion
 			);
 			$this->localizador_model->insertLocalizador($data);	
@@ -242,5 +242,26 @@ class Localizador extends CI_Controller {
 		$this->localizador_model->updateAbono($data);
 		$result = array('mensaje' => "actualizado" );
 		echo json_encode($result);
+	}
+	public function updateLocalizador(){
+		$data = array(
+			'idlocalizador' => $this->input->post("id"),
+			'cvelocalizador' => $this->input->post("cvelocalizador"),
+			'ttoo' => $this->input->post("ttoo"),
+			'otroespecificacion' => $this->input->post("otroespecificacion"),
+			'servicio' => $this->input->post("servicio"),
+			'tipotarifa' => $this->input->post("tipotarifa"),
+			'numhabs' => $this->input->post("numhabs"),
+			'titular' => $this->input->post("titular"),
+			'tarifapublica' => $this->input->post("tarifapublica"),
+			'fechain' => $this->input->post("fechain"),
+			'fechaout' => $this->input->post("fechaout"),
+			'planalimentos' => $this->input->post("planalimentos"), 
+			'adultos' => $this->input->post("adultos"), 
+			'menores' => $this->input->post("menores")
+		);
+		$this->load->model("localizador_model");
+		$this->localizador_model->updateLocalizador($data);
+		//echo json_encode();
 	}
 }
