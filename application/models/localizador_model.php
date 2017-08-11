@@ -125,7 +125,6 @@ class localizador_model extends CI_Model {
 			'acumulado' => $result['acumulado'],
 			'fechacreacion'  => $result['fechacreacion'], 
 			'saldo'  => $result['saldo'], 
-			'statuspago'  => $result['statuspago'], 
 			'cantidadabonos'  => $result['cantidadabonos'], 
 			'fechaultimoabono'  => $dateUltimoAbono, 
 			'statusedocta'  => $result['statusedocta'] 
@@ -175,9 +174,11 @@ class localizador_model extends CI_Model {
 			'numhabs' => $data["numhabs"],
 			'adultos' => $data["adultos"],
 			'menores' => $data["menores"],
-			'statuspagado' => $data[""],
-			'fechacreacion' => $data[""]
+			'status' => $data["status"],
+			'fechacreacion' => $data["fechacreacion"]
 		);
+		$this->db->where("idabono",$data['idabono']);
+		$this->db->update("tbdetalleedocta",$data);
 	}
 }
 ?>

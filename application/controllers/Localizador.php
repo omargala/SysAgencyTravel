@@ -37,7 +37,7 @@ class Localizador extends CI_Controller {
 			echo json_encode($existe);
 		}else{
 			// se puede dar de alta
-			$statuspagado = "A"; // Cuando se da de alta su status será A = Aplicado
+			$status = "A"; // Cuando se da de alta su status será A = Aplicado
 			$fechacreacion = date("Y-m-d");
 			$data = array(
 				'localizador' => $this->input->post('localizador'), 
@@ -53,7 +53,7 @@ class Localizador extends CI_Controller {
 				'planalimentos' => strtoupper($this->input->post('planalimentos')), 
 				'adultos' => $this->input->post('adultos'), 
 				'menores' => $this->input->post('menores'),
-				'status' => $statuspagado,
+				'status' => $status,
 				'fechacreacion' => $fechacreacion
 			);
 			$this->localizador_model->insertLocalizador($data);	
@@ -108,7 +108,7 @@ class Localizador extends CI_Controller {
 			'montoabono'    => $data->montoabono,
 			'fechaabono'    => $data->fechaabono,
 			'modopagoabono' => $data->modopagoabono,
-			'statusabono'   => 0
+			'statusabono'   => "C"
 		);
 	}
 	public function buscar(){
@@ -132,7 +132,7 @@ class Localizador extends CI_Controller {
 	}
 	public function registraAbono(){
 		$fechaabono = date("Y-m-d");
-		$statusabono = 1;
+		$statusabono = "A";
 		$idEdoCta = $this->input->post('estadodecuenta');
 		$data = array(
 			'idedocuenta'   => $idEdoCta,
@@ -154,11 +154,9 @@ class Localizador extends CI_Controller {
 				'acumulado' => $value->acumulado, 
 				'fechacreacion'  => $value->fechacreacion, 
 				'saldo'  => $value->saldo, 
-				'statuspago'  => $value->statuspago, 
-				'statuspago'  => 0,
 				'cantidadabonos'  => $value->cantidadabonos, 
 				'fechaultimoabono'  => $value->fechaultimoabono, 
-				'statusedocta'  => $value->statusedocta 
+				'statusedocta'  => $statusabono
 			);
 		}
 		$this->localizador_model->updateFechaUltimoAbonoTBEdoCta($result);
@@ -179,8 +177,6 @@ class Localizador extends CI_Controller {
 				'acumulado' => $acumulado,
 				'fechacreacion'  => $value->fechacreacion, 
 				'saldo'  => $value->saldo, 
-				'statuspago'  => $value->statuspago, 
-				'statuspago'  => 0,
 				'cantidadabonos'  => $value->cantidadabonos, 
 				'fechaultimoabono'  => $value->fechaultimoabono, 
 				'statusedocta'  => $value->statusedocta 
@@ -202,7 +198,6 @@ class Localizador extends CI_Controller {
 				'acumulado' => $value->acumulado,
 				'fechacreacion'  => $value->fechacreacion, 
 				'saldo'  => $saldo,
-				'statuspago'  => 0, 
 				'cantidadabonos'  => $value->cantidadabonos, 
 				'fechaultimoabono'  => $value->fechaultimoabono, 
 				'statusedocta'  => $value->statusedocta 
@@ -244,8 +239,11 @@ class Localizador extends CI_Controller {
 		echo json_encode($result);
 	}
 	public function updateLocalizador(){
+		$id = $this->input->post("id");
+		$this->load->model("localizador_model");
+		$result = $this->localizador_model->getLocalizadorPorId($id);
 		$data = array(
-			'idlocalizador' => $this->input->post("id"),
+			'idlocalizador' => $id,
 			'cvelocalizador' => $this->input->post("cvelocalizador"),
 			'ttoo' => $this->input->post("ttoo"),
 			'otroespecificacion' => $this->input->post("otroespecificacion"),
@@ -258,9 +256,9 @@ class Localizador extends CI_Controller {
 			'fechaout' => $this->input->post("fechaout"),
 			'planalimentos' => $this->input->post("planalimentos"), 
 			'adultos' => $this->input->post("adultos"), 
-			'menores' => $this->input->post("menores")
-		);
-		$this->load->model("localizador_model");
+			'menores' => $this->input->post("menores"),
+			'fechacreacion' => $result->fechacreacion
+		);		
 		$this->localizador_model->updateLocalizador($data);
 		//echo json_encode();
 	}

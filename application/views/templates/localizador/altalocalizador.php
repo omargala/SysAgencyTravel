@@ -14,7 +14,8 @@
                         </div>             
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-12">                                              
+                                <div class="col-md-12"> 
+                                    <div id="alertLocalizador"></div>                                             
                                     <form name="registroFormulario" role="form">                     
                                             <div class="form-group">
                                                 <label for="localizador" class="col-sm-4 control-label" align="right">Localizador:</label>
@@ -270,6 +271,7 @@
             success: function(data) {             
                 console.log(data);
                 for (var i = data.length - 1; i >= 0; i--) {
+                    alertStatus(data[i].status);
                     $("#localizador").val(data[i].cvelocalizador);
                     $("#ttoo").val(data[i].ttoo);
                     $("#otro").val(data[i].otroespecificacion);
@@ -293,6 +295,20 @@
                 console.log(errorThrown);
             } 
         });
+    }
+    function alertStatus(status){
+        if(status=="A"){
+            var cadenaAlert = '<p class="bg-primary">Activo</p>';
+            $("#alertLocalizador").append(cadenaAlert);
+        }
+        if(status=="C"){
+            var cadenaAlert = '<p class="bg-danger">Cancelado</p>';
+            $("#alertLocalizador").append(cadenaAlert);
+        }
+        if(status=="P"){
+            var cadenaAlert = '<p class="bg-success">Pagado</p>';
+            $("#alertLocalizador").append(cadenaAlert);
+        }
     }
     function cancelarLocalizador(id){
         alert(id);
