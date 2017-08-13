@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-08-2017 a las 21:47:19
--- Versión del servidor: 5.6.12-log
--- Versión de PHP: 5.4.16
+-- Tiempo de generación: 13-08-2017 a las 19:26:34
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sysat`
 --
-CREATE DATABASE IF NOT EXISTS `sysat` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `sysat`;
 
 -- --------------------------------------------------------
 
@@ -52,26 +50,7 @@ CREATE TABLE IF NOT EXISTS `tbdetalleedocta` (
   `modopagoabono` varchar(2) NOT NULL,
   `statusabono` varchar(1) NOT NULL,
   PRIMARY KEY (`idabono`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
-
---
--- Volcado de datos para la tabla `tbdetalleedocta`
---
-
-INSERT INTO `tbdetalleedocta` (`idabono`, `idedocuenta`, `abonadopor`, `recibidopor`, `montoabono`, `fechaabono`, `modopagoabono`, `statusabono`) VALUES
-(1, 1, 'Isabel Loyo', 'Omar Gala', 350, '2017-06-26', 'ef', 'A'),
-(2, 1, 'Isabel Loyo', 'Omar Gala', 500, '2017-06-27', 'ef', 'A'),
-(3, 1, 'Isabel Loyo', 'Omar Gala', 300, '2017-06-27', 'tc', 'A'),
-(4, 1, 'Isabel Loyo', 'Omar Gala', 450, '2017-06-28', 'ef', 'A'),
-(5, 1, 'Isabel Loyo', 'Omar Gala', 100, '2017-06-28', 'ef', 'A'),
-(6, 1, 'Isabel Loyo', 'Omar Gala', 100, '2017-06-28', 'ef', 'A'),
-(7, 1, 'Isabel Loyo', 'Omar Gala', 200, '2017-06-28', 'ef', 'A'),
-(8, 1, 'Isabel Loyo', 'Omar Gala', 50, '2017-06-28', 'ef', 'A'),
-(9, 1, 'Isabel Loyo', 'Omar Gala', 80, '2017-06-28', 'ef', 'A'),
-(10, 1, 'Isabel Loyo', 'Omar Gala', 25, '2017-06-28', 'ef', 'A'),
-(11, 1, 'Isabel Loyo', 'Omar Gala', 20, '2017-06-28', 'ef', 'A'),
-(12, 1, 'Isabel Loyo', 'Omar Gala', 90, '2017-06-28', 'ef', 'A'),
-(13, 1, 'Isabel Loyo', 'Omar Gala', 1000, '2017-07-03', 'ef', 'A');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -90,17 +69,14 @@ CREATE TABLE IF NOT EXISTS `tbedocta` (
   `fechaultimoabono` date DEFAULT '0000-00-00',
   `statusedocta` varchar(1) NOT NULL,
   PRIMARY KEY (`idedocta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tbedocta`
 --
 
 INSERT INTO `tbedocta` (`idedocta`, `cvelocalizador`, `montooriginal`, `acumulado`, `fechacreacion`, `saldo`, `cantidadabonos`, `fechaultimoabono`, `statusedocta`) VALUES
-(1, '9999900598', '10800', '3265', '2017-06-12', '7535', 13, '2017-07-03', 'A'),
-(2, '125234', '8600', '0', '2017-08-08', '8600', 0, '0000-00-00', 'A'),
-(3, '88887777', '10000', '0', '2017-08-08', '0', 0, '0000-00-00', 'C'),
-(4, '3333', '15000', '0', '2017-08-08', '15000', 0, '0000-00-00', 'A');
+(1, '9999900598', '8400', '0', '2017-08-13', '8400', 0, '0000-00-00', 'C');
 
 -- --------------------------------------------------------
 
@@ -126,17 +102,14 @@ CREATE TABLE IF NOT EXISTS `tblocalizadores` (
   `status` varchar(1) NOT NULL,
   `fechacreacion` date NOT NULL,
   PRIMARY KEY (`idlocalizador`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tblocalizadores`
 --
 
 INSERT INTO `tblocalizadores` (`idlocalizador`, `cvelocalizador`, `titular`, `ttoo`, `otroespecificacion`, `tarifapublica`, `fechain`, `fechaout`, `servicio`, `planalimentos`, `tipotarifa`, `numhabs`, `adultos`, `menores`, `status`, `fechacreacion`) VALUES
-(1, '9999900598', 'OMAR GALA', '', '', 10800, '2017-07-01', '2017-02-07', 'GRAND BAHíA PRíNCIPE', 'TODO INCLUIDO', 'NORMAL', 1, 2, 0, 'A', '2017-06-12'),
-(3, '125234', 'MILKA MENENDEZ', '', '', 8600, '2017-11-11', '2017-11-15', 'GRAN PARNASSUS', 'TODO INCLUIDO', 'NORMAL', 1, 2, 0, 'A', '2017-08-08'),
-(4, '88887777', 'MILA JOVOVICH', '', '', 10000, '2017-12-21', '2017-12-28', 'CANCúN VIVA', 'TODO INCLUIDO', 'NORMAL', 1, 2, 0, 'A', '2017-08-08'),
-(5, '3333', 'ALEJANDRO MURANO', '', '', 15000, '2017-09-10', '2017-09-15', 'XCARET', 'TODO INCLUIDO', 'VERANO', 1, 2, 0, 'A', '2017-08-08');
+(1, '9999900598', 'OMAR GALA', '', '', 8400, '2017-09-08', '2017-09-15', 'GRAND BAHíA PRíNCIPE', 'TODO INCLUIDO', 'NORMAL', 1, 2, 0, 'C', '2017-08-13');
 
 -- --------------------------------------------------------
 

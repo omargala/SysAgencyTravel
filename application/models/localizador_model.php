@@ -160,25 +160,80 @@ class localizador_model extends CI_Model {
 		$this->db->update("tbdetalleedocta",$data);
 	}
 	function updateLocalizador($data){
-		$dataUpdate = array(
-			'cvelocalizador' => $data["cvelocalizador"], 
-			'titular' => $data["titular"],
-			'ttoo' => $data["ttoo"],
-			'otroespecificacion' => $data["otroespecificacion"],
-			'tarifapublica' => $data["tarifapublica"],
-			'fechain' => $data["fechain"],
-			'fechaout' => $data["fechaout"],
-			'servicio' => $data["servicio"],
-			'planalimentos' => $data["planalimentos"],
-			'tipotarifa' => $data["tipotarifa"],
-			'numhabs' => $data["numhabs"],
-			'adultos' => $data["adultos"],
-			'menores' => $data["menores"],
-			'status' => $data["status"],
-			'fechacreacion' => $data["fechacreacion"]
+		$dataUpdateLocalizadores = array (
+			'cvelocalizador'  => $data['cvelocalizador'],
+			'titular'  => $data['titular'],
+			'ttoo'  => $data['ttoo'],
+			'otroespecificacion'  => $data['otroespecificacion'],
+			'tarifapublica'  => $data['tarifapublica'],
+			'fechain'  => $data['fechain'],
+			'fechaout'  => $data['fechaout'],
+			'servicio'  => $data['servicio'],
+			'planalimentos' =>  $data['planalimentos'],
+			'tipotarifa'  => $data['tipotarifa'],
+			'numhabs'  => $data['numhabs'],
+			'adultos'  => $data['adultos'],
+			'menores'  => $data['menores'],
+			'status'  => $data['status'],
+			'fechacreacion' => $data['fechacreacion']		
 		);
-		$this->db->where("idabono",$data['idabono']);
-		$this->db->update("tbdetalleedocta",$data);
+		$dataUpdateEdoCuenta = array (
+			'cvelocalizador'  => $data['cvelocalizador'],
+			'montooriginal'  => $data['montooriginal'],
+			'acumulado'  => $data['acumulado'],
+			'fechacreacion'  => $data['fechacreacion'],
+			'saldo'  => $data['saldo'],
+			'cantidadabonos'  => $data['cantidadabonos'],
+			'fechaultimoabono'  => $data['fechaultimoabono'],
+			'statusedocta'  => $data['statusedocta']
+		);
+		$this->db->where("cvelocalizador",$data['cvelocalizador']);
+		$this->db->update("tblocalizadores",$dataUpdateLocalizadores);
+		$this->db->where("cvelocalizador",$data['cvelocalizador']);
+		$this->db->update("tbedocta",$dataUpdateEdoCuenta);
+	}
+	function getDatosxId($id){
+		$this->db->select("*");
+		$this->db->from("tblocalizadores");
+		$this->db->join("tbedocta","tbedocta.cvelocalizador=tblocalizadores.cvelocalizador");
+		$this->db->where("tblocalizadores.idlocalizador",(int)$id);
+		$query = $this->db->get();
+		if($query->num_rows() > 0) return $query->result();
+		return false;
+	}
+	function cancelaDatosxId($data){
+		$dataUpdateLocalizadores = array (
+			'cvelocalizador'  => $data['cvelocalizador'],
+			'titular'  => $data['titular'],
+			'ttoo'  => $data['ttoo'],
+			'otroespecificacion'  => $data['otroespecificacion'],
+			'tarifapublica'  => $data['tarifapublica'],
+			'fechain'  => $data['fechain'],
+			'fechaout'  => $data['fechaout'],
+			'servicio'  => $data['servicio'],
+			'planalimentos' =>  $data['planalimentos'],
+			'tipotarifa'  => $data['tipotarifa'],
+			'numhabs'  => $data['numhabs'],
+			'adultos'  => $data['adultos'],
+			'menores'  => $data['menores'],
+			'status'  => $data['status'],
+			'fechacreacion' => $data['fechacreacion']		
+		);
+		$dataUpdateEdoCuenta = array (
+			'cvelocalizador'  => $data['cvelocalizador'],
+			'montooriginal'  => $data['montooriginal'],
+			'acumulado'  => $data['acumulado'],
+			'fechacreacion'  => $data['fechacreacion'],
+			'saldo'  => $data['saldo'],
+			'cantidadabonos'  => $data['cantidadabonos'],
+			'fechaultimoabono'  => $data['fechaultimoabono'],
+			'statusedocta'  => $data['statusedocta']
+		);
+		$this->db->where("cvelocalizador",$data['cvelocalizador']);
+		$this->db->update("tblocalizadores",$dataUpdateLocalizadores);
+		$this->db->where("cvelocalizador",$data['cvelocalizador']);
+		$this->db->update("tbedocta",$dataUpdateEdoCuenta);
+		
 	}
 }
 ?>

@@ -239,27 +239,93 @@ class Localizador extends CI_Controller {
 		echo json_encode($result);
 	}
 	public function updateLocalizador(){
-		$id = $this->input->post("id");
+		$idlocalizador = $this->input->post("id");
+		$status = $this->input->post("status");
 		$this->load->model("localizador_model");
-		$result = $this->localizador_model->getLocalizadorPorId($id);
-		$data = array(
-			'idlocalizador' => $id,
-			'cvelocalizador' => $this->input->post("cvelocalizador"),
-			'ttoo' => $this->input->post("ttoo"),
-			'otroespecificacion' => $this->input->post("otroespecificacion"),
-			'servicio' => $this->input->post("servicio"),
-			'tipotarifa' => $this->input->post("tipotarifa"),
-			'numhabs' => $this->input->post("numhabs"),
-			'titular' => $this->input->post("titular"),
-			'tarifapublica' => $this->input->post("tarifapublica"),
-			'fechain' => $this->input->post("fechain"),
-			'fechaout' => $this->input->post("fechaout"),
-			'planalimentos' => $this->input->post("planalimentos"), 
-			'adultos' => $this->input->post("adultos"), 
-			'menores' => $this->input->post("menores"),
-			'fechacreacion' => $result->fechacreacion
-		);		
+		$result = $this->localizador_model->getDatosxId($idlocalizador);
+		foreach ($result as $r) {
+			if($status=="NA"){
+				if($r->saldo==0){
+					$status = "P";
+				}else{
+					$status = "A";
+				}
+
+			}else{
+				$status = $this->input->post("status");
+			}
+			$data = array(
+				'idlocalizador'=> $r->idlocalizador, 
+				'cvelocalizador'=> $r->cvelocalizador, 
+				'titular'=> $r->titular, 
+				'ttoo'=> $r->ttoo, 
+				'otroespecificacion'=> $r->otroespecificacion, 
+				'tarifapublica'=> $r->tarifapublica, 
+				'fechain'=> $r->fechain, 
+				'fechaout'=> $r->fechaout, 
+				'servicio'=> $r->servicio, 
+				'planalimentos'=> $r->planalimentos, 
+				'tipotarifa'=> $r->tipotarifa, 
+				'numhabs'=> $r->numhabs, 
+				'adultos'=> $r->adultos, 
+				'menores'=> $r->menores, 
+				'status'=> $status, 
+				'fechacreacion'=> $r->fechacreacion, 
+				'montooriginal'=> $r->montooriginal, 
+				'acumulado'=> $r->acumulado, 
+				'fechacreacion'=> $r->fechacreacion, 
+				'saldo'=> $r->saldo, 
+				'cantidadabonos'=> $r->cantidadabonos, 
+				'fechaultimoabono'=> $r->fechaultimoabono, 
+				'statusedocta'=> $status
+			);
+		}		
 		$this->localizador_model->updateLocalizador($data);
-		//echo json_encode();
+		$response = array (
+			"mensaje" => "ok"
+		);
+		echo json_encode($response);
+	}
+	public function cancelarLocalizador(){
+		//CANCELAR IMPLICA: UPDATE A TABLA LOCALIZADOR, 
+		//TABLA EDOCTA, PERO NO CANCELA LOS ABONOS AUNQUE ESTÁN LIGADOS
+		//SE PUEDE PONER LA OPCIÓN DE CANCELAR LOS ABONOS, SI EXISTE LA DEVOLUCIÓN TOTAL.
+		//SE PUEDE PONER LA OPCIÓN DE CANCELAR LOS ABONOS, SI EXISTE LA DEVOLUCIÓN PARCIAL Y GUARDANDO
+		//UN ABONO NUEVO COMO PENALIZACIÓN.
+		$idlocalizador = $this->input->post("id");
+		$this->load->model("localizador_model");
+		$result = $this->localizador_model->getDatosxId($idlocalizador);
+		foreach ($result as $r) {
+			$data = array(
+				'idlocalizador'=> $r->idlocalizador, 
+				'cvelocalizador'=> $r->cvelocalizador, 
+				'titular'=> $r->titular, 
+				'ttoo'=> $r->ttoo, 
+				'otroespecificacion'=> $r->otroespecificacion, 
+				'tarifapublica'=> $r->tarifapublica, 
+				'fechain'=> $r->fechain, 
+				'fechaout'=> $r->fechaout, 
+				'servicio'=> $r->servicio, 
+				'planalimentos'=> $r->planalimentos, 
+				'tipotarifa'=> $r->tipotarifa, 
+				'numhabs'=> $r->numhabs, 
+				'adultos'=> $r->adultos, 
+				'menores'=> $r->menores, 
+				'status'=> "C", 
+				'fechacreacion'=> $r->fechacreacion, 
+				'montooriginal'=> $r->montooriginal, 
+				'acumulado'=> $r->acumulado, 
+				'fechacreacion'=> $r->fechacreacion, 
+				'saldo'=> $r->saldo, 
+				'cantidadabonos'=> $r->cantidadabonos, 
+				'fechaultimoabono'=> $r->fechaultimoabono, 
+				'statusedocta'=> "C"
+			);
+		};
+		$this->localizador_model->cancelaDatosxId($data);
+		$response = array(
+			"mensaje" => "ok"
+		);
+		echo json_encode($response);
 	}
 }

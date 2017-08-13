@@ -77,12 +77,7 @@
             success: function(data) {
                 for (var i = data.length - 1; i >= 0; i--) {
                     registro = data[0]; 
-                    var indicadorPagado = false;
-
-                  
-                    if(registro.statuspago==1){
-                        $('#alertaPagado').removeClass('hide');
-                    }
+                    
                     //alert(registro.statuspago);
                     $('#localizador').val(registro.cvelocalizador);
                     $('#clave').html(registro.cvelocalizador);
@@ -103,13 +98,11 @@
                     cadena=cadena + '<a href="#" class="list-group-item"><strong>Alimentos: </strong>' + registro.planalimentos + '</a>';
                     cadena=cadena + '<a href="#" class="list-group-item"><strong>Ttoo: </strong>' + registro.ttoo + '</a>';
                     cadena=cadena + '<a href="#" class="list-group-item"><strong>Otro: </strong>' + registro.otroespecificacion + '</a>';
-
                     $('#descripcion-detalle').html(cadena);
                     $('#celabono').focus();
                     getTotalPagado(registro.idedocta);                    
                     getAbonosLocalizador(registro.idedocta);
                     $("#localizador").val("");
-                   
                 }
             },
             error: function(error){
@@ -367,7 +360,6 @@
         $("#modoPagoModal option[value="+ modo +"]").attr("selected",true);
     }
     function cancelarAbono(idabono){
-        //alert("Hice click a cancelar " + idabono);
         var base_url = "<?=base_url(); ?>";
         var url = base_url+"Localizador/cancelaAbono"; 
         datos = {
@@ -388,7 +380,6 @@
                 console.log(errorThrown);
             }   
         }); 
-
     }
     function getIdLocalizador(cve){
         //alert("cve"+cve);
@@ -408,7 +399,13 @@
                 contentType: "application/x-www-form-urlencoded",
                 success: function(data) {     
                     console.log(data);
-                    buscar(data[0].idlocalizador);
+                    if (data) {
+                        buscar(data[0].idlocalizador);                   
+                    }else{
+                        $("#localizador").val(""); 
+                        $("#localizador").focus();
+                        alert("No existe registros de Localizadores");    
+                    }                    
                 },
                 error: function(errorThrown) {
                     console.log(errorThrown);
@@ -548,33 +545,30 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">Datos del Localizador <a class="btn" type="button" data-toggle="modal" data-target="#infoLocalizador"><i class="fa fa-info-circle" aria-hidden="true" style="color:white;float:right;"></i></a></div>
                             <div class="panel-body">
-                               <div id="alertaPagado" class="alert alert-success hide">
-                                    Cuenta liquidada
-                                </div>  
-                                    <ul class="list-group">
-                                        <li class="list-group-item ">Clave: <span id="clave"></span></li>
-                                        <li class="list-group-item">Titular: <span id="nombre"></span></li>
-                                    </ul>
-                                    <div class="modal fade" id="infoLocalizador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header list-group-item active">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span style="color:white;" aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title" id="myModalLabel">Detalle del Localizador</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                <div id="descripcion-detalle" class="list-group">
-                                                 
-                                                </div>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                              </div>
+                            <div id="alertSection"></div>
+                                <ul class="list-group">
+                                    <li class="list-group-item ">Clave: <span id="clave"></span></li>
+                                    <li class="list-group-item">Titular: <span id="nombre"></span></li>
+                                </ul>
+                                <div class="modal fade" id="infoLocalizador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header list-group-item active">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span style="color:white;" aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Detalle del Localizador</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div id="descripcion-detalle" class="list-group">
+                                             
                                             </div>
                                           </div>
-                                    </div>
-                                   
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                </div>
                             </div>
                             <!-- <div class="panel-footer">Panel footer</div>-->
                         </div>

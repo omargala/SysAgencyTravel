@@ -8,6 +8,7 @@
                 <div class="col-lg-6">
                     <div id="alerta1" class="alert alert-warning">Ya existe un localizador con esta clave</div> 
                     <div id="alerta2" class="alert alert-success">Los datos se guardaron exitosamente</div>
+                    <div id="alertSection"></div>
                     <div class="panel panel-primary">                        
                         <div class="panel-heading">
                             <strong>Información de localizador</strong>
@@ -97,10 +98,19 @@
                                                     <input type="number" min="0" id="menores" class="form-control" placeholder="Ej. 1"><span id="13"></span>           
                                                 </div>
                                             </div>
+                                            <div id="contenedorCancelado" class="form-group hidden">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                  <div class="checkbox">
+                                                    <label class="text-danger">
+                                                      <input type="checkbox" id="canceladoLocalizador"> Cancelado
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                            </div>
                                             <div class="form-group" align="right">
                                                 <button id="submitForm" class="btn btn-primary">Guardar</button>
                                                 <button id="guardarCambios" class="btn btn-primary hidden" data-set="">Guardar Cambios</button>
-                                                <button type="reset" class="btn btn-danger">Cancelar</button>
+                                                <button id="cancelarFormulario" type="reset" class="btn btn-danger">Cancelar</button>
                                             </div>
                                     </form>
                                 </div>
@@ -273,6 +283,7 @@
                 for (var i = data.length - 1; i >= 0; i--) {
                     alertStatus(data[i].status);
                     $("#localizador").val(data[i].cvelocalizador);
+                    $("#localizador").attr("disabled","true");
                     $("#ttoo").val(data[i].ttoo);
                     $("#otro").val(data[i].otroespecificacion);
                     $("#servicio").val(data[i].servicio);
@@ -286,6 +297,12 @@
                     $("#adultos").val(data[i].adultos);
                     $("#menores").val(data[i].menores);
                     $("#guardarCambios").attr("data-set",data[i].idlocalizador);
+                    $("#contenedorCancelado").removeClass("hidden");
+                    if (data[i].status=="C") {
+                        $("#canceladoLocalizador").prop("checked", "checked");
+                    }else{
+                        $("#canceladoLocalizador").prop("checked", "");
+                    }
                 }
                 $("#submitForm").addClass("hidden");
                 $("#guardarCambios").removeClass("hidden");
@@ -298,20 +315,39 @@
     }
     function alertStatus(status){
         if(status=="A"){
-            var cadenaAlert = '<p class="bg-primary">Activo</p>';
+            var cadenaAlert = '<div id="alertResult" class="alert alert-info" role="alert">Activo</div>';
             $("#alertLocalizador").append(cadenaAlert);
         }
         if(status=="C"){
-            var cadenaAlert = '<p class="bg-danger">Cancelado</p>';
+            var cadenaAlert = '<div id="alertResult" class="alert alert-danger" role="alert">Cancelado</div>';
             $("#alertLocalizador").append(cadenaAlert);
         }
         if(status=="P"){
-            var cadenaAlert = '<p class="bg-success">Pagado</p>';
+            var cadenaAlert = '<div id="alertResult" class="alert alert-success" role="alert">Pagado</div>';
             $("#alertLocalizador").append(cadenaAlert);
         }
     }
     function cancelarLocalizador(id){
-        alert(id);
+        var data_url = "<?=base_url(); ?>";
+        var url = data_url + "Localizador/cancelarLocalizador";
+        var datos = {
+            'id' : id
+        }
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            data: datos,
+            contentType: "application/x-www-form-urlencoded",
+            success: function(data){
+                console.log(data);
+                limpiaformulario();
+                $('#lista_localizadores').load('<?=base_url();?>Localizador/listaLocalizadores');
+            },
+            error: function(errorThrown) {
+                console.log(errorThrown);
+            }
+        })
     }
     function openEstadoCuenta(id){
         $('#main_localizadores').load('<?=base_url();?>Localizador/edoCuenta/'+id);
@@ -321,6 +357,12 @@
         //alert(id);
         var data_url = "<?=base_url(); ?>";
         var url = data_url + "Localizador/updateLocalizador";
+        if($("#canceladoLocalizador").prop("checked")){
+            var status = "C";
+        }else{
+            var status = "NA";
+        }        
+        alert(status);
         var datos = {
             id : id,
             cvelocalizador :$("#localizador").val(),
@@ -335,7 +377,8 @@
             fechaout : $("#fechaout").val(),
             planalimentos : $("#planalimentos").val(),
             adultos : $("#adultos").val(),
-            menores : $("#menores").val()
+            menores : $("#menores").val(),
+            status : status
         };
         $.ajax({
             url: url,
@@ -344,17 +387,17 @@
             data: datos,
             contentType: "application/x-www-form-urlencoded",
             success: function(data) {    
-                for (var i = data.length - 1; i >= 0; i--) {
-                   
-                }
-                $("#submitForm").removeClass("hidden");
-                $("#guardarCambios").addClass("hidden");
-                $("guardarCambios").attr("data-set","");
+                console.log(data);
+                $('#main_localizadores').load('<?=base_url();?>Localizador/altaLocalizador');
             },
             error: function(errorThrown) {
                 console.log(errorThrown);
             } 
         });
+    })
+    $("#cancelarFormulario").click(function(){
+        $("#alertResult").remove();
+        $("#contenedorCancelado").addClass("hidden");
     })
     $(document).ready(function(){
         $("#alerta1").hide();
