@@ -36,7 +36,6 @@
             $( "#1" ).text( "Campo monto de abono es obligatorio" ).show().fadeOut( 1000 );
             $('#montoabono').focus();
             return false;
-        // -----
         }
         if($('#mododepagoabono').val()=="mp"){
              $( "#2" ).text( "Seleccione una opción por favor" ).show().fadeOut( 1000 );
@@ -76,32 +75,54 @@
             contentType: "application/x-www-form-urlencoded",
             success: function(data) {
                 for (var i = data.length - 1; i >= 0; i--) {
-                    registro = data[0]; 
-                    
-                    //alert(registro.statuspago);
-                    $('#localizador').val(registro.cvelocalizador);
-                    $('#clave').html(registro.cvelocalizador);
-                    $('#nombre').html(registro.titular);
-                    $('#tarifa').val(registro.tarifapublica);
-                    $('#estadodecuenta').val(registro.idedocta);
-                    $('#saldo').val(registro.saldo);
-                    $('#pagado').val(registro.acumulado);
-                    $('#datosparaabonos').removeClass('hide');
-                    var cadena="";
-                    cadena='<a href="#" class="list-group-item"><strong>Tipo de Tarifa: </strong>' + registro.tipotarifa  + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Servicio: </strong>' + registro.servicio + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong># de Habs.: </strong>' + registro.numhabs  + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Adultos: </strong>' + registro.adultos  + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Menores: </strong>' + registro.menores + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Fecha In: </strong>' + registro.fechain  + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Fecha Out:</strong>' + registro.fechaout  + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Alimentos: </strong>' + registro.planalimentos + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Ttoo: </strong>' + registro.ttoo + '</a>';
-                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Otro: </strong>' + registro.otroespecificacion + '</a>';
+                    console.log(data[i]); 
+                    var descripcionStatus = "";
+                    if(data[i].status=="C")
+                        {
+                            descripcionStatus="<strong class='text-danger'>Cancelado</strong>";
+                            $("#datosdellocalizador").removeClass("panel-primary");
+                            $("#datosdellocalizador").addClass("panel-danger");
+                            $("#balance").removeClass("panel-primary");
+                            $("#balance").addClass("panel-danger");                           
+                        };
+                    if(data[i].status=="A")
+                        {
+                            descripcionStatus="<strong class='text-primary'>Activo</strong>";                            
+                        };
+                    if(data[i].status=="P")
+                        {
+                            descripcionStatus="<strong class='text-success'>Pagado</strong>";
+                            $("#datosdellocalizador").removeClass("panel-primary");
+                            $("#datosdellocalizador").addClass("panel-success");
+                            $("#balance").removeClass("panel-primary");
+                            $("#balance").addClass("panel-success");
+                        };
+                    var cadena="";                    
+                    cadena='<a href="#" class="list-group-item"><strong>Estatus de Localizador: </strong>' + data[i].status  + " - " + descripcionStatus + '</a>';
+                    $("#alertSection").append(cadena);
+                    $('#localizador').val(data[i].cvelocalizador);
+                    $('#clave').html(data[i].cvelocalizador);
+                    $('#nombre').html(data[i].titular);
+                    $('#tarifa').val(data[i].tarifapublica);
+                    $('#estadodecuenta').val(data[i].idedocta);
+                    $('#saldo').val(data[i].saldo);
+                    $('#pagado').val(data[i].acumulado);
+                    $('#datosparaabonos').removeClass('hide');                    
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Estatus de Localizador: </strong>' + data[i].tipotarifa  + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Servicio: </strong>' + data[i].servicio + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong># de Habs.: </strong>' + data[i].numhabs  + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Adultos: </strong>' + data[i].adultos  + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Menores: </strong>' + data[i].menores + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Fecha In: </strong>' + data[i].fechain  + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Fecha Out:</strong>' + data[i].fechaout  + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Alimentos: </strong>' + data[i].planalimentos + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Ttoo: </strong>' + data[i].ttoo + '</a>';
+                    cadena=cadena + '<a href="#" class="list-group-item"><strong>Otro: </strong>' + data[i].otroespecificacion + '</a>';
                     $('#descripcion-detalle').html(cadena);
-                    $('#celabono').focus();
-                    getTotalPagado(registro.idedocta);                    
-                    getAbonosLocalizador(registro.idedocta);
+                    getTotalPagado(data[i].idedocta);                    
+                    getAbonosPagados(data[i].idedocta);
+                    getAbonosCancelados(data[i].idedocta);
+                    getAbonosTodos(data[i].idedocta);
                     $("#localizador").val("");
                 }
             },
@@ -221,50 +242,6 @@
             }
         });
     };
-    function getAbonosLocalizador(idedocta){
-        var registro={};
-        var base_url = "<?=base_url();?>";
-        var url = base_url + "Localizador/getAbonos"; // the script where you handle the form input.     
-        var cadena ="";
-        var datos = {
-            'idedocta' : idedocta
-        }        
-
-        $.ajax({
-                url: url,
-                type: "POST",
-                dataType: "JSON",
-                data: datos,
-                contentType: "application/x-www-form-urlencoded",
-                success: function(data) {
-                    if(data){
-                        var contador=0;
-                         for (var i = data.length - 1; i >= 0; i--) {                  
-                            contador+=1;
-                           // var botonEditar = '<a class="btn" onclick="editarAbono('+data[i].idabono+')" ><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
-                            var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
-                            var botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
-                            var modopago = getModoPago(data[i].modopagoabono);
-                            var status = getStatus(data[i].statusabono);
-                            cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
-                            cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
-                            cadena=cadena + '<td>'+data[i].montoabono+'</td>';
-                            cadena=cadena + '<td class="optionsbuttons">'; 
-                            cadena=cadena + botonEditar + botonCancelar;                       
-                            cadena=cadena + '</td></tr>';
-
-                        }
-                        $('#tablaabonos tr:last').after(cadena);                        
-                    }else{                       
-                              
-                    }         
-
-                },
-                error: function(errorThrown) {
-                    console.log(errorThrown);
-                }   
-            }); 
-        };
     $("#guardaAbono").click(function(){
         if(validacampos()){
             var datos={
@@ -286,7 +263,10 @@
                     console.log(data);
                     borrarFilasActuales();
                     limpiaformularioabono();
-                    getAbonosLocalizador($("#estadodecuenta").val());
+                    //getAbonosLocalizador($("#estadodecuenta").val());
+                    getAbonosTodos($("#estadodecuenta").val());
+                    getAbonosCancelados($("#estadodecuenta").val());
+                    getAbonosPagados($("#estadodecuenta").val());
                     getTotalPagado($("#estadodecuenta").val());                   
                 },
                 error: function(error){
@@ -481,7 +461,9 @@
                         limpiarEditarDialog();    
                         $('#editarDialog').modal('hide'); 
                         borrarFilasActuales();
-                        getAbonosLocalizador($('#estadodecuenta').val());
+                        getAbonosPagados($('#estadodecuenta').val());
+                        getAbonosCancelados($('#estadodecuenta').val());
+                        getAbonosTodos($('#estadodecuenta').val());
                     },
                     error: function(errorThrown) {
                         console.log(errorThrown);
@@ -489,6 +471,129 @@
             });
         }
     })
+    function getAbonosPagados(idedocta){
+        var registro={};
+        var base_url = "<?=base_url();?>";
+        var url = base_url + "Localizador/getAbonosPagados";
+        var cadena ="";
+        var datos = {
+            'idedocta' : idedocta
+        }        
+        $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: datos,
+                contentType: "application/x-www-form-urlencoded",
+                success: function(data) {
+                    if(data){
+                        var contador=0;
+                         for (var i = data.length - 1; i >= 0; i--) {                  
+                            contador+=1;
+                            var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
+                            var botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
+                            var modopago = getModoPago(data[i].modopagoabono);
+                            var status = getStatus(data[i].statusabono);
+                            cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
+                            cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
+                            cadena=cadena + '<td>'+data[i].montoabono+'</td>';
+                            cadena=cadena + '<td class="optionsbuttons">'; 
+                            cadena=cadena + botonEditar + botonCancelar;                       
+                            cadena=cadena + '</td></tr>';
+                        }
+                        $('#tablaabonospagados tr:last').after(cadena);                        
+                    }else{                       
+                              
+                    }         
+
+                },
+                error: function(errorThrown) {
+                    console.log(errorThrown);
+                }   
+            }); 
+    };
+    function getAbonosCancelados(idedocta){
+        var registro={};
+        var base_url = "<?=base_url();?>";
+        var url = base_url + "Localizador/getAbonosCancelados";
+        var cadena ="";
+        var datos = {
+            'idedocta' : idedocta
+        }        
+        $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: datos,
+                contentType: "application/x-www-form-urlencoded",
+                success: function(data) {
+                    if(data){
+                        var contador=0;
+                         for (var i = data.length - 1; i >= 0; i--) {                  
+                            contador+=1;
+                            var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
+                            var botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
+                            var modopago = getModoPago(data[i].modopagoabono);
+                            var status = getStatus(data[i].statusabono);
+                            cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
+                            cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
+                            cadena=cadena + '<td>'+data[i].montoabono+'</td>';
+                            cadena=cadena + '<td class="optionsbuttons">'; 
+                            cadena=cadena + botonEditar + botonCancelar;                       
+                            cadena=cadena + '</td></tr>';
+                        }
+                        $('#tablaabonoscancelados tr:last').after(cadena);                        
+                    }else{                       
+                              
+                    }         
+
+                },
+                error: function(errorThrown) {
+                    console.log(errorThrown);
+                }   
+            }); 
+    };
+    function getAbonosTodos(idedocta){
+        var registro={};
+        var base_url = "<?=base_url();?>";
+        var url = base_url + "Localizador/getAbonosTodos";
+        var cadena ="";
+        var datos = {
+            'idedocta' : idedocta
+        }        
+        $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: datos,
+                contentType: "application/x-www-form-urlencoded",
+                success: function(data) {
+                    if(data){
+                        var contador=0;
+                         for (var i = data.length - 1; i >= 0; i--) {                  
+                            contador+=1;
+                            var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
+                            var botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
+                            var modopago = getModoPago(data[i].modopagoabono);
+                            var status = getStatus(data[i].statusabono);
+                            cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
+                            cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
+                            cadena=cadena + '<td>'+data[i].montoabono+'</td>';
+                            cadena=cadena + '<td class="optionsbuttons">'; 
+                            cadena=cadena + botonEditar + botonCancelar;                       
+                            cadena=cadena + '</td></tr>';
+                        }
+                        $('#tablaabonostodos tr:last').after(cadena);                        
+                    }else{                       
+                              
+                    }         
+
+                },
+                error: function(errorThrown) {
+                    console.log(errorThrown);
+                }   
+            });  
+    };
     $(document).ready(function(){        
         var base_url = "<?=base_url(); ?>";
         var url = base_url +"Localizador/getLocalizadores";         
@@ -527,8 +632,8 @@
                 <div class="panel-contenedor-interno">
                     <div class="row">
                         <div class="col-md-12 form-inline">
-                            <div class="form-group" style="width: 80%">
-                                <input id="localizador" placeholder="Buscar por Clave o Nombre" style="width: 100%">
+                            <div class="form-group">
+                                <input id="localizador" placeholder="Buscar por Clave o Nombre">
                             </div>
                             <button cass="form-group" id="search" type="button" class="btn btn-warning my-btn-circle"><strong>
                                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -542,7 +647,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="col-md-6">
-                        <div class="panel panel-primary">
+                        <div id="datosdellocalizador" class="panel panel-primary">
                             <div class="panel-heading">Datos del Localizador <a class="btn" type="button" data-toggle="modal" data-target="#infoLocalizador"><i class="fa fa-info-circle" aria-hidden="true" style="color:white;float:right;"></i></a></div>
                             <div class="panel-body">
                             <div id="alertSection"></div>
@@ -572,9 +677,9 @@
                             </div>
                             <!-- <div class="panel-footer">Panel footer</div>-->
                         </div>
-                        <div class="panel panel-primary">
+                        <div id="balance" class="panel panel-primary">
                             <div class="panel-heading">
-                                Estado de Cuenta
+                                Balance de Estado de Cuenta
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -660,14 +765,14 @@
                                 <div>
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" class="active"><a href="#NoCancelados" aria-controls="NoCancelados" role="tab" data-toggle="tab">Home</a></li>
-                                        <li role="presentation"><a href="#Cancelados" aria-controls="Cancelados" role="tab" data-toggle="tab">Profile</a></li>
-                                        <li role="presentation"><a href="#Todos" aria-controls="Todos" role="tab" data-toggle="tab">Messages</a></li>
+                                        <li role="presentation" class="active"><a href="#pagados" aria-controls="pagados" role="tab" data-toggle="tab"><strong class="text-success">Pagados</strong></a></li>
+                                        <li role="presentation"><a href="#cancelados" aria-controls="cancelados" role="tab" data-toggle="tab"><strong class="text-danger">Cancelados</strong></a></li>
+                                        <li role="presentation"><a href="#todos" aria-controls="todos" role="tab" data-toggle="tab"><strong class="text-primary">Todos</strong></a></li>
                                     </ul>
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane active" id="NoCancelados">
-                                            <table id="tablaabonos" class="table table-striped">
+                                        <div role="tabpanel" class="tab-pane active" id="pagados">
+                                            <table id="tablaabonospagados" class="table table-striped">
                                                 <thead>
                                                     <tr class="info">
                                                        <th>#</th>
@@ -680,8 +785,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div role="tabpanel" class="tab-pane" id="Cancelados">
-                                            <table class="table table-strip">
+                                        <div role="tabpanel" class="tab-pane" id="cancelados">
+                                            <table id="tablaabonoscancelados" class="table table-strip">
                                                 <thead>
                                                     <tr class="info">
                                                         <th>#</th>
@@ -693,8 +798,8 @@
                                                 <tbody></tbody>
                                             </table>
                                         </div>
-                                        <div role="tabpanel" class="tab-pane" id="Todos">
-                                            <table class="table table-strip">
+                                        <div role="tabpanel" class="tab-pane" id="todos">
+                                            <table id="tablaabonostodos" class="table table-strip">
                                                 <thead>
                                                     <tr class="info">
                                                         <th>#</th>

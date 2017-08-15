@@ -90,6 +90,35 @@ class localizador_model extends CI_Model {
 		if ($query->num_rows()>0) return $query->result();
 		return false;
 	}
+	function abonosPagadosById($idedocta){
+		$this->db->select("*");
+		$this->db->from("tbdetalleedocta");
+		$this->db->where("idedocuenta",$idedocta);
+		$this->db->where("statusabono","P");
+		$this->db->order_by('fechaabono');
+		$query = $this->db->get();
+		if ($query->num_rows()>0) return $query->result();
+		return false;
+	}
+	function abonosCanceladosById($idedocta){
+		$this->db->select("*");
+		$this->db->from("tbdetalleedocta");
+		$this->db->where("idedocuenta",$idedocta);
+		$this->db->where("statusabono","C");
+		$this->db->order_by('fechaabono');
+		$query = $this->db->get();
+		if ($query->num_rows()>0) return $query->result();
+		return false;
+	}
+	function abonosTodosById($idedocta){
+		$this->db->select("*");
+		$this->db->from("tbdetalleedocta");
+		$this->db->where("idedocuenta",$idedocta);
+		$this->db->order_by('fechaabono');
+		$query = $this->db->get();
+		if ($query->num_rows()>0) return $query->result();
+		return false;
+	}
 	function insertAbono($data){
 		$this->db->insert('tbdetalleedocta',$data);
 	}

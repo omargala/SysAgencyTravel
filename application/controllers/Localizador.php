@@ -125,9 +125,19 @@ class Localizador extends CI_Controller {
 				break;
 		}
 	}
-	public function getAbonos(){
+	public function getAbonosPagados(){
 		$this->load->model('localizador_model');
-		$data= $this->localizador_model->abonoById($this->input->post('idedocta'));
+		$data= $this->localizador_model->abonosPagadosById($this->input->post('idedocta'));
+		echo json_encode($data);
+	}
+	public function getAbonosCancelados(){
+		$this->load->model('localizador_model');
+		$data= $this->localizador_model->abonosCanceladosById($this->input->post('idedocta'));
+		echo json_encode($data);
+	}
+	public function getAbonosTodos(){
+		$this->load->model('localizador_model');
+		$data= $this->localizador_model->abonosTodosById($this->input->post('idedocta'));
 		echo json_encode($data);
 	}
 	public function registraAbono(){
