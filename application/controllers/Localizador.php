@@ -16,7 +16,6 @@ class Localizador extends CI_Controller {
 		$this->load->view('menu');
 		$this->load->view('templates/localizador/opcioneslocalizador');
 		$this->load->view('footer');
-		//-----
 	}
 	public function altaLocalizador()
 	{
@@ -98,18 +97,27 @@ class Localizador extends CI_Controller {
 		}
 	}
 	public function cancelaAbono(){
-		$idedocta = $this->input->post('id');
+		$idabono = $this->input->post('id');
 		$this->load->model('localizador_model');
-		$data = $this->localizador_model->getAbonoPorId($idabono);
-		$result = array(
-			'idedocuenta'   => $data->idedocuenta,
-			'abonadopor'    => $data->abonadopor,
-			'recibidopor'   => $data->recibidopor,
-			'montoabono'    => $data->montoabono,
-			'fechaabono'    => $data->fechaabono,
-			'modopagoabono' => $data->modopagoabono,
-			'statusabono'   => "C"
+		$data['abonosxid'] = $this->localizador_model->getAbonoPorId($idabono);
+		foreach ($data['abonosxid']  as $key => $data) {
+			$result = array(
+				'idabono'       => $data->idabono,
+				'idedocuenta'   => $data->idedocuenta,
+				'abonadopor'    => $data->abonadopor,
+				'recibidopor'   => $data->recibidopor,
+				'montoabono'    => $data->montoabono,
+				'fechaabono'    => $data->fechaabono,
+				'modopagoabono' => $data->modopagoabono,
+				'statusabono'   => "C"
+			);
+		}
+		
+		$this->localizador_model->cancelaAbono($result);
+		$response = array(
+			'mensaje' => "ok => abono cancelado"
 		);
+		echo json_encode($response);
 	}
 	public function buscar(){
 		$tipo=$this->input->post('tipo');
@@ -142,7 +150,7 @@ class Localizador extends CI_Controller {
 	}
 	public function registraAbono(){
 		$fechaabono = date("Y-m-d");
-		$statusabono = "A";
+		$statusabono = "P";
 		$idEdoCta = $this->input->post('estadodecuenta');
 		$data = array(
 			'idedocuenta'   => $idEdoCta,

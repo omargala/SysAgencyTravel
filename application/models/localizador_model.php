@@ -122,10 +122,19 @@ class localizador_model extends CI_Model {
 	function insertAbono($data){
 		$this->db->insert('tbdetalleedocta',$data);
 	}
+	/*function getTotalPagado($idedocta){
+		$this->db->select_sum('montoabono');
+		$this->db->from('tbdetalleedocta');
+		$this->db->where('idedocuenta',$idedocta);
+		$query = $this->db->get();
+		if($query->num_rows()>0) return $query->row()->montoabono;;
+		return false;
+	}*/
 	function getTotalPagado($idedocta){
 		$this->db->select_sum('montoabono');
 		$this->db->from('tbdetalleedocta');
 		$this->db->where('idedocuenta',$idedocta);
+		$this->db->where('statusabono',"P");
 		$query = $this->db->get();
 		if($query->num_rows()>0) return $query->row()->montoabono;;
 		return false;
@@ -175,6 +184,19 @@ class localizador_model extends CI_Model {
 		$query = $this->db->get();
 		if ($query->num_rows()>0) return $query->result();
 		return false;
+	}
+	function cancelaAbono($result){
+		$dataUpdateAbono = array(
+			'idedocuenta'   => $result['idedocuenta'],
+			'abonadopor'    => $result['abonadopor'],
+			'recibidopor'   => $result['recibidopor'],
+			'montoabono'    => $result['montoabono'],
+			'fechaabono'    => $result['fechaabono'],
+			'modopagoabono' => $result['modopagoabono'],
+			'statusabono'   => $result['statusabono']
+		);
+		$this->db->where('idabono',$result['idabono']);
+		$this->db->update("tbdetalleedocta",$dataUpdateAbono);
 	}
 	function getAbonoPorId($idabono){
 		$this->db->select('*');
