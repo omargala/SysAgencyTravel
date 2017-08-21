@@ -403,5 +403,13 @@
         $("#alerta1").hide();
         $("#alerta2").hide();
         $('#lista_localizadores').load('<?=base_url();?>Localizador/listaLocalizadores');
+
+        if ($(window).width() < 1199){
+          $('#contenedorgeneral').removeClass('container');
+        }
+        if ($(window).width() < 770){
+          $(".form-group div").removeClass('input-group');
+          $('.form-group input').addClass('col-sm-12');
+        }
     });
 </script> 

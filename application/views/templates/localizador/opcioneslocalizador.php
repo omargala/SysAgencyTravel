@@ -1,4 +1,4 @@
-<div class="container">
+<div id="contenedorgeneral" class="container">
   <div id="opciones" style="margin-top: 50px;">
    <ul class="nav nav-tabs" role="tablist">
     <li role="presentation"><a id="alta" aria-controls="profile" role="tab" data-toggle="tab">Localizadores</a></li>
@@ -15,5 +15,12 @@
     $("#edocuenta").click(function(event) {               
       $('#main_localizadores').load('<?=base_url();?>Localizador/edoCuenta');
     });
+    if ($(window).width() < 1199){
+      $('#contenedorgeneral').removeClass('container');
+    }
+    if ($(window).width() < 770){
+      $('.form-group input').removeClass('col-sm-8');
+      $('.form-group input').addClass('col-sm-12');
+    }
 	});
 </script>

@@ -1,3 +1,4 @@
+var base_url = "http://localhost/SysAgencyTravel/";
 function borrarFilasActuales(){
     $(".itemabono").remove();
 };
@@ -6,7 +7,7 @@ function buscar(id){
         'id': id,
         'tipo':'1'
     }
-    base_url = "http://localhost/SysAgencyTravel/";
+    //base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/Buscar";        
     $.ajax({
         url: url,
@@ -75,7 +76,6 @@ function buscar(id){
 function calculaSaldo(totalpagado){
     var a = totalpagado;
     var b = $('#tarifa').val();
-    //alert(a +" - " + b);
     var saldo = b - a;    
     $('#pagado').val(totalpagado);
     $('#saldo').val(saldo);
@@ -91,7 +91,6 @@ function calculaSaldo(totalpagado){
     updateSaldo(saldo);
 };
 function cancelarAbono(idabono){
-    var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/cancelaAbono"; 
     datos = {
         'id' : idabono
@@ -111,6 +110,7 @@ function cancelarAbono(idabono){
             getAbonosCancelados($("#estadodecuenta").val());
             getAbonosTodos($("#estadodecuenta").val());
             getTotalPagado($("#estadodecuenta").val());  
+
         },
         error: function(errorThrown) {
             console.log(errorThrown);
@@ -127,7 +127,7 @@ function checkedStatusModal(status){
 };
 function getAbonosCancelados(idedocta){
     var registro={};
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url + "Localizador/getAbonosCancelados";
     var cadena ="";
     var datos = {
@@ -165,7 +165,7 @@ function getAbonosCancelados(idedocta){
 };
 function getAbonosPagados(idedocta){
     var registro={};
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url + "Localizador/getAbonosPagados";
     var cadena ="";
     var datos = {
@@ -204,50 +204,46 @@ function getAbonosPagados(idedocta){
         }); 
 };
 function getAbonosTodos(idedocta){
-    var registro={};
-    var base_url = "http://localhost/SysAgencyTravel/";
-    var url = base_url + "Localizador/getAbonosTodos";
-    var cadena ="";
-    var datos = {
-        'idedocta' : idedocta
-    }        
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: "JSON",
-        data: datos,
-        contentType: "application/x-www-form-urlencoded",
-        success: function(data) {
-            if(data){
-                var contador=0;
-                var botonCancelar = "";
-                 for (var i = data.length - 1; i >= 0; i--) {                  
-                    contador+=1;
-                    var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
-                    
-                    if(data[i].statusabono=="C"){
-                        botonCancelar = '<a class="btn" disabled><strong class="text-danger">C</strong></a>';
-                    }else{
-                        botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
-                    }                            
-                    var modopago = getModoPago(data[i].modopagoabono);
-                    cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
-                    cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
-                    cadena=cadena + '<td>'+data[i].montoabono+'</td>';
-                    cadena=cadena + '<td class="optionsbuttons">'; 
-                    cadena=cadena + botonEditar + botonCancelar;                       
-                    cadena=cadena + '</td></tr>';
-                }
-                $('#tablaabonostodos tr:last').after(cadena);                        
-            }else{                       
-                      
-            }         
-
-        },
-        error: function(errorThrown) {
-            console.log(errorThrown);
-        }   
-    });  
+ var registro={};
+ var url = base_url + "Localizador/getAbonosTodos";
+ var cadena ="";
+ var datos = {
+     'idedocta' : idedocta
+ }        
+ $.ajax({
+   url: url,
+   type: "POST",
+   dataType: "JSON",
+   data: datos,
+   contentType: "application/x-www-form-urlencoded",
+   success: function(data) {
+    if(data){
+     var contador=0;
+     var botonCancelar = "";
+      for (var i = data.length - 1; i >= 0; i--) {                  
+         contador+=1;
+         var botonEditar = '<a class="btn" onclick="openEditarAbono('+data[i].idabono+')"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>';
+         
+         if(data[i].statusabono=="C"){
+             botonCancelar = '<a class="btn" disabled><strong class="text-danger">C</strong></a>';
+         }else{
+             botonCancelar = '<a class="btn" onclick="cancelarAbono('+data[i].idabono+')"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>';
+         }                            
+         var modopago = getModoPago(data[i].modopagoabono);
+         cadena=cadena + '<tr class="itemabono"><td class="active">'+contador+'</td>';                            
+         cadena=cadena + '<td>'+data[i].fechaabono+'</td>';
+         cadena=cadena + '<td>'+data[i].montoabono+'</td>';
+         cadena=cadena + '<td class="optionsbuttons">'; 
+         cadena=cadena + botonEditar + botonCancelar;                       
+         cadena=cadena + '</td></tr>';
+     }
+     $('#tablaabonostodos tr:last').after(cadena);                        
+    }         
+   },
+   error: function(errorThrown) {
+    console.log(errorThrown);
+  }   
+ });  
 };
 function getClave(cadena){
     var inicio = cadena.split(" ",1);
@@ -255,7 +251,7 @@ function getClave(cadena){
 }
 function getIdLocalizador(cve){
     var registro={};
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/getIdLocalizadorbyCve";     
     var cadena ="";
     var datos = {
@@ -297,14 +293,13 @@ function getModoPago(idmp){
     }
 };
 function getTotalPagado(idedocta){
-    var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/consultas";
     var cadena ="";
     var idedocta = idedocta;
     var datos = {
         'id' : idedocta,
         'option' : 1
-    }  
+    }
     $.ajax({
         url: url,
             type: "POST",
@@ -312,6 +307,9 @@ function getTotalPagado(idedocta){
             data: datos,
             contentType: "application/x-www-form-urlencoded",
             success: function(data) {
+                console.log("AQUÍ GET TOTAL PAGADO Y RECIBO DATA=> ");
+                console.log(data.totalpagado);
+                
                 updateTotalPagado(data.totalpagado);
                 calculaSaldo(data.totalpagado);
             },
@@ -342,7 +340,7 @@ function modoPagoNoSeleccionado(){
     }
 };
 function openEditarAbono(idabono){
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/consultas";
     var cadena ="";
     var datos = {
@@ -388,7 +386,7 @@ function siCheckedStatusModal(){
     }
 }
 function updateSaldo(saldo){
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/updateSaldo"; 
     var datos = {
         'idedocta'  : $('#estadodecuenta').val(),
@@ -411,7 +409,7 @@ function updateSaldo(saldo){
     });
 };
 function updateTotalPagado(acumulado){
-    var base_url = "http://localhost/SysAgencyTravel/";
+    //var base_url = "http://localhost/SysAgencyTravel/";
     var url = base_url+"Localizador/updateAcumulado"; 
     var datos = {
         'idedocta'  : $('#estadodecuenta').val(),
@@ -463,7 +461,7 @@ $("#guardaAbono").click(function(){
         'recibidopor' : $("#recibidopor").val(),
         'estadodecuenta' : $("#estadodecuenta").val()
         }
-        var base_url =  "http://localhost/SysAgencyTravel/";
+        //var base_url =  "http://localhost/SysAgencyTravel/";
         var url = base_url+"Localizador/registraAbono";  
         $.ajax({
             url: url,
@@ -505,52 +503,53 @@ $("#modoPagoModal").change(function(){
     }
 })
 $('#guardarCambiosAbono').click(function(){
-     if(modoPagoNoSeleccionado()){
-        alert("Seleccione un método de pago");
-        $('#modoPagoModal').focus();
-        return;
-    }else{
-        var id = $('#referenciaAbonoModal').val();
-        var idabono = String(id.split("-",1));
-        var idedocuenta = $('#estadodecuenta').val();
-        var modopagoabono = $('#modoPagoModal').val();
-        var montopagado = $('#montoAbonoModal').val();
-        var status = siCheckedStatusModal();
-        var fechaabono = $("#fechaAbonoModal").val();
-        var quienrecibio = $("#recibioModal").val();
-        var quienpago = $("#pagoModal").val();
-        var datos = {
-            'idabono' : idabono,
-            'idedocuenta' : idedocuenta,
-            'abonadopor' : quienpago,
-            'recibidopor' : quienrecibio,
-            'montoabono' : montopagado,
-            'fechaabono' : fechaabono,
-            'modopagoabono' : modopagoabono,
-            'statusabono' : status 
-        }
-        var base_url = "http://localhost/SysAgencyTravel/";
-        var url = base_url+"Localizador/actualizaAbono";
-        $.ajax({
-                url: url,
-                type: "POST",
-                dataType: "JSON",
-                data: datos,
-                contentType: "application/x-www-form-urlencoded",
-                success: function(data) { 
-                    for (var i = data.length - 1; i >= 0; i--) {
-                        console.log(data[i].mensaje);
-                    }
-                    limpiarEditarDialog();    
-                    $('#editarDialog').modal('hide'); 
-                    borrarFilasActuales();
-                    getAbonosPagados($('#estadodecuenta').val());
-                    getAbonosCancelados($('#estadodecuenta').val());
-                    getAbonosTodos($('#estadodecuenta').val());
-                },
-                error: function(errorThrown) {
-                    console.log(errorThrown);
-                }   
-        });
-    }
+ if(modoPagoNoSeleccionado()){
+    alert("Seleccione un método de pago");
+    $('#modoPagoModal').focus();
+    return;
+}else{
+  var id = $('#referenciaAbonoModal').val();
+  var idabono = String(id.split("-",1));
+  var idedocuenta = $('#estadodecuenta').val();
+  var modopagoabono = $('#modoPagoModal').val();
+  var montopagado = $('#montoAbonoModal').val();
+  var status = siCheckedStatusModal();
+  var fechaabono = $("#fechaAbonoModal").val();
+  var quienrecibio = $("#recibioModal").val();
+  var quienpago = $("#pagoModal").val();
+  var datos = {
+      'idabono' : idabono,
+      'idedocuenta' : idedocuenta,
+      'abonadopor' : quienpago,
+      'recibidopor' : quienrecibio,
+      'montoabono' : montopagado,
+      'fechaabono' : fechaabono,
+      'modopagoabono' : modopagoabono,
+      'statusabono' : status 
+  }
+  var url = base_url+"Localizador/actualizaAbono";
+  $.ajax({
+   url: url,
+   type: "POST",
+   dataType: "JSON",
+   data: datos,
+   contentType: "application/x-www-form-urlencoded",
+   success: function(data) { 
+       for (var i = data.length - 1; i >= 0; i--) {
+           console.log(data[i].mensaje);
+       }
+
+       limpiarEditarDialog();    
+       $('#editarDialog').modal('hide'); 
+       borrarFilasActuales();
+       getAbonosPagados($('#estadodecuenta').val());
+       getAbonosCancelados($('#estadodecuenta').val());
+       getAbonosTodos($('#estadodecuenta').val());
+       getTotalPagado($('#estadodecuenta').val());
+   },
+   error: function(errorThrown) {
+       console.log(errorThrown);
+   }   
+  });
+ }
 })
