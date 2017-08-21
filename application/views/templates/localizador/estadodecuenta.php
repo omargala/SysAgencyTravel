@@ -27,28 +27,31 @@
         color: red;
         opacity: .5;
     }
+    .easy-autocomplete-container ul {
+      margin-top: 35px;
+    }
 </style> 
 <div id="page-wrapper">
- <div class="row">
+  <div class="row">
   <div class="col-md-12">        
    <h1 class="page-header">Estado de Cuenta</h1>            
    <div class="panel panel-default">
-    <div class="panel-contenedor-interno">
-      <div class="row">
-       <div class="col-md-12 form-inline">
-        <div class="form-group">
-         <input id="localizador" placeholder="Buscar por Clave o Nombre">
-        </div>
-        <button cass="form-group" id="search" type="button" class="btn btn-warning my-btn-circle"><strong>
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </strong></button>
-       </div>        
+    <div class="panel-contenedor-interno"> 
+    <div class="row">
+      <div class="col-lg-6 col-sm-6 col-12">
+      <div class="input-group">
+        <input id="localizador" placeholder="Buscar por Clave o Nombre" type="text" class="form-control" aria-label="Search for...">
+        <span class="input-group-btn">
+          <button  id="search" class="btn btn-secondary btn-warning" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </span>
       </div>
-     </div>
-    </div>                                                              
+      </div>
+    </div>                                                         
    </div>
+  </div>
+ </div> 
    <div id="datosparaabonos" class="col-md-12 hide">
-    <div class="panel panel-default">
+    <div class="panel-default">
      <div class="panel-body">
        <div class="col-md-6">
         <div id="datosdellocalizador" class="panel panel-primary">
@@ -84,42 +87,42 @@
              Balance de Estado de Cuenta
          </div>
          <div class="panel-body">
-          <div class="row">
-           <div class="col-md-4"  align="right">
+          
+           <div class="col-2" >
              <label for="estadodecuenta">Estado de Cuenta:</label>
            </div>
-           <div class="col-md-8 input-group">
+           <div class="col-8 input-group">
             <span class="input-group-addon">#</span>
-            <input id="estadodecuenta" class="form-control" type="text" placeholder="0" style="text-align: left;" disabled> 
+            <input id="estadodecuenta" class="form-control" type="text" placeholder="0" style="text-align: left;" disabled><span class="input-group-addon">...</span> 
            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4" align="right">
+          
+        
+            <div class="col-2">
               <label for="tarifa">Tarifa Total:</label>
             </div>
-            <div class="col-md-8 input-group">
+            <div class="col-8 input-group">
              <span class="input-group-addon">$</span>
              <input id="tarifa" class="form-control" type="text" placeholder="Tarifa pública Ej. $5,400.00" style="text-align: right;" disabled><span class="input-group-addon">.00</span>        
             </div>
-          </div>
-          <div class="row">
-           <div class="col-md-4" align="right">
+       
+         
+           <div class="col-2">
             <label for="pagado">Total Pagado:</label>
            </div>
-           <div class="col-md-8 input-group">
+           <div class="col-8 input-group">
             <span class="input-group-addon">$</span>
             <input id="pagado" class="form-control" type="text" placeholder="Tarifa pública Ej. $5,400.00" style="text-align: right;" disabled><span class="input-group-addon">.00</span>       
            </div>
-          </div>
-          <div class="row">
-           <div class="col-md-4" align="right">
+   
+      
+           <div class="col-2">
             <label for="saldo">Saldo Total:</label>
            </div>
-           <div class="col-md-8 input-group">
+           <div class="col-8 input-group">
             <span class="input-group-addon">$</span>
             <input id="saldo" class="form-control" type="text" placeholder="Tarifa pública Ej. $5,400.00" style="text-align: right;" disabled><span class="input-group-addon">.00</span>       
            </div>
-          </div>
+         
          </div>
         </div>
         <div class="panel panel-primary">
@@ -322,8 +325,5 @@ $(document).ready(function(){
         var idLocalizadorFiltro = "<?=$idLocalizadorFiltro;?>";
         buscar(idLocalizadorFiltro);
      <?php } ?>
-  if ($(window).width() < 1199){
-    $('#balance .col-md-4').attr("align","left");
-  }
 });
 </script> 
