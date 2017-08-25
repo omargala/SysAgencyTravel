@@ -37,7 +37,7 @@ class localizador_model extends CI_Model {
 			'montooriginal' => $data['tarifa'],
 			'acumulado' => 0,
 			'fechacreacion' => $data['fechacreacion'],
-			'saldo' => 0,
+			'saldo' => $data['tarifa'],
 			'cantidadabonos' => 0,
 			'statusedocta' => $data['status']
 		);
@@ -222,7 +222,7 @@ class localizador_model extends CI_Model {
 			'servicio'  => $data['servicio'],
 			'planalimentos' =>  $data['planalimentos'],
 			'tipotarifa'  => $data['tipotarifa'],
-			'numhabs'  => $data['numhabs'],
+			'numhabs'  => (int) $data['numhabs'],
 			'adultos'  => $data['adultos'],
 			'menores'  => $data['menores'],
 			'status'  => $data['status'],

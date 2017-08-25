@@ -21,26 +21,32 @@ function buscar(id){
                 var descripcionStatus = "";
                 if(data[i].status=="C")
                     {
-                        descripcionStatus="<strong class='text-danger'>Cancelado</strong>";
+                        descripcionStatus="<strong>Cancelado</strong>";
                         $("#datosdellocalizador").removeClass("panel-primary");
                         $("#datosdellocalizador").addClass("panel-danger");
                         $("#balance").removeClass("panel-primary");
-                        $("#balance").addClass("panel-danger");                           
+                        $("#balance").addClass("panel-danger");
+                        $("#alertSection").addClass("alert");
+                        $("#alertSection").addClass("alert-danger");                           
                     };
                 if(data[i].status=="A")
                     {
-                        descripcionStatus="<strong class='text-primary'>Activo</strong>";                            
+                        descripcionStatus="<strong>Activo</strong>"; 
+                        $("#alertSection").addClass("alert");  
+                        $("#alertSection").addClass("alert-info");                         
                     };
                 if(data[i].status=="P")
                     {
-                        descripcionStatus="<strong class='text-success'>Pagado</strong>";
+                        descripcionStatus="<strong>Pagado</strong>";
                         $("#datosdellocalizador").removeClass("panel-primary");
                         $("#datosdellocalizador").addClass("panel-success");
                         $("#balance").removeClass("panel-primary");
                         $("#balance").addClass("panel-success");
+                        $("#alertSection").addClass("alert");
+                        $("#alertSection").addClass("alert-success");
                     };
                 var cadena="";                    
-                cadena='<a href="#" class="list-group-item"><strong>Estatus de Localizador: </strong>' + data[i].status  + " - " + descripcionStatus + '</a>';
+                cadena='<h4><strong>Estatus de Localizador: </strong>' + data[i].status  + " - " + descripcionStatus + '</h4>';
                 $("#alertSection").append(cadena);
                 $('#localizador').val(data[i].cvelocalizador);
                 $('#clave').html(data[i].cvelocalizador);
@@ -80,11 +86,23 @@ function calculaSaldo(totalpagado){
     $('#pagado').val(totalpagado);
     $('#saldo').val(saldo);
     if(saldo==0){
-        $("#alertaPagado").removeClass("hide");            
-        $("#abonar").addClass("hide");
+        $("#alertSection").html("");
+        var cadena ="";
+        cadena='<h4><strong>Estatus de Localizador: </strong> P  - Pagado</h4>';
+        $("#alertSection").html(cadena);
+        $("#alertSection").removeClass("alert-info");
+        $("#alertSection").addClass("alert");
+        $("#alertSection").addClass("alert-success");          
+        $("#abonar").addClass("hide"); 
         $('#guardaAbono').attr('disabled','disabled');
     }else{
-        $("#alertaPagado").addClass("hide");
+        $("#alertSection").html("");
+        var cadena ="";
+        cadena='<h4><strong><strong>Estatus de Localizador: </strong> A  - Activo </h4>';
+        $("#alertSection").html(cadena);
+        $("#alertSection").removeClass("alert-success");
+        $("#alertSection").removeClass("alert-info");
+        $("#alertSection").addClass("alert-info");
         $('#guardaAbono').removeAttr('disabled');
         $("#abonar").removeClass("hide");
     }
@@ -308,8 +326,7 @@ function getTotalPagado(idedocta){
             contentType: "application/x-www-form-urlencoded",
             success: function(data) {
                 console.log("AQUÍ GET TOTAL PAGADO Y RECIBO DATA=> ");
-                console.log(data.totalpagado);
-                
+                console.log(data.totalpagado);                
                 updateTotalPagado(data.totalpagado);
                 calculaSaldo(data.totalpagado);
             },
@@ -528,6 +545,7 @@ $('#guardarCambiosAbono').click(function(){
       'statusabono' : status 
   }
   var url = base_url+"Localizador/actualizaAbono";
+  var cadena ="";
   $.ajax({
    url: url,
    type: "POST",

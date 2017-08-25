@@ -42,7 +42,7 @@
       <div class="input-group">
         <input id="localizador" placeholder="Buscar por Clave o Nombre" type="text" class="form-control" aria-label="Search for...">
         <span class="input-group-btn">
-          <button  id="search" class="btn btn-secondary btn-warning" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+          <button  id="search" class="btn btn-warning" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
         </span>
       </div>
       </div>
