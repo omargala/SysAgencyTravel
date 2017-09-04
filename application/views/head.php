@@ -13,7 +13,13 @@
     <link href="<?=base_url();?>vendor/css/sb-admin.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="<?=base_url();?>vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
+    <link rel="stylesheet" href="<?=base_url();?>assets/autocomplete/easy-autocomplete.min.css">
+    <link rel="stylesheet" href="<?=base_url();?>assets/autocomplete/easy-autocomplete.themes.min.css">
     <link rel="stylesheet" href="<?=base_url();?>css/style.css">
     <script src="<?=base_url();?>vendor/js/jquery.js"></script>
+    <script src="<?=base_url();?>assets/autocomplete/jquery.easy-autocomplete.js"></script>  
+    <script src="<?=base_url();?>vendor/js/bootstrap.js"></script>
+    <script src="<?=base_url();?>vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="<?=base_url();?>vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="<?=base_url();?>vendor/datatables-responsive/dataTables.responsive.js"></script>
 </head>
-<body class="proyecto">

@@ -1,36 +1,3 @@
-<!-- Bootstrap Core CSS -->
-<link href="<?=base_url();?>vendor/css/bootstrap.min.css" rel="stylesheet">
-<!-- Custom CSS -->
-<link href="<?=base_url();?>vendor/css/sb-admin.css" rel="stylesheet">
-<!-- Custom Fonts -->
-<link href="<?=base_url();?>vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
-<link rel="stylesheet" href="<?=base_url();?>css/style.css">
-<script src="<?=base_url();?>vendor/js/jquery.js"></script>
-<link rel="stylesheet" href="<?=base_url(); ?>assets/autocomplete/easy-autocomplete.min.css">
-<link rel="stylesheet" href="<?=base_url(); ?>assets/autocomplete/easy-autocomplete.themes.min.css">
-<style>
-    .panel-contenedor-interno{
-      border-radius: 4px; 
-      border: 1px solid #ddd; 
-      padding: 15px;
-    }
-    .my-btn-circle {
-        width: 30px;
-        height: 30px;
-        padding: 6px 0;
-        border-radius: 15px;
-        text-align: center;
-        font-size: 12px;
-        line-height: 1.4285;
-    }
-    .close {
-        color: red;
-        opacity: .5;
-    }
-    .easy-autocomplete-container ul {
-      margin-top: 35px;
-    }
-</style> 
 <div id="page-wrapper">
   <div class="row">
   <div class="col-md-12">        
@@ -95,8 +62,6 @@
             <span class="input-group-addon">#</span>
             <input id="estadodecuenta" class="form-control" type="text" placeholder="0" style="text-align: left;" disabled><span class="input-group-addon">...</span> 
            </div>
-          
-        
             <div class="col-2">
               <label for="tarifa">Tarifa Total:</label>
             </div>
@@ -293,37 +258,4 @@
    </div>      
   </div>                    
 </div>
-<script src="<?=base_url(); ?>assets/autocomplete/jquery.easy-autocomplete.js"></script>
-<script src="<?=base_url(); ?>vendor/js/bootstrap.js"></script>
 <script src="js/estadodecuenta.js"></script>
-<script>
-$(document).ready(function(){        
-    var base_url = "<?=base_url(); ?>";
-    var url = base_url +"Localizador/getLocalizadores";         
-    var options = {
-        url: function(phrase) {
-            return url;
-        },
-        getValue: function(element) {
-            return element.cvelocalizador + " " + element.titular;
-        },          
-        ajaxSettings: {
-            dataType: "json",
-            method: "POST",
-            data: {
-                dataType: "json"
-            }
-        },
-        preparePostData: function(data) {
-            data.phrase = $("#localizador").val();
-            return data;
-        },
-        requestDelay: 400
-    };       
-    $('#localizador').easyAutocomplete(options);   
-    <?php if ($idLocalizadorFiltro!="") { ?>
-        var idLocalizadorFiltro = "<?=$idLocalizadorFiltro;?>";
-        buscar(idLocalizadorFiltro);
-     <?php } ?>
-});
-</script> 

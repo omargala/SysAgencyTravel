@@ -8,15 +8,12 @@
 <div id="main_localizadores"></div>
 <script>
   $(document).ready(function(){
-    $('#main_localizadores').load('<?=base_url();?>Localizador/Localizadores');
     $("#alta").click(function(event) {               
-      $('#main_localizadores').load('<?=base_url();?>Localizador/Localizadores');
+      $('#main_localizadores').load('<?=base_url();?>Localizadores/');
     });              
     $("#edocuenta").click(function(event) {               
-      $('#main_localizadores').load('<?=base_url();?>Localizador/edoCuenta');
+      $('#main_localizadores').load('<?=base_url();?>Estadosdecuenta/');
     });
   });
 </script>
 
-
- 
