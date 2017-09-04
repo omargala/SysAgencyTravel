@@ -17,24 +17,24 @@
                     <tr class="info"> 
                       <th>Clave</th>
                       <th>Titular</th>
-                      <th>Cancelado</th>      
-                      <th>Pagado</th>
+                      <th>Tarifa</th>      
+                      <th>Total Abonado</th>
+                      <th>Saldo Total</th>
                       <th>Opciones</th>
                     </tr>
                   </thead>
                  <tbody>                    
-                   <?php if ($listalocalizadores): ?>
-                     <?php foreach ($listalocalizadores as $localizador): ?>
+                   <?php if ($listaestadosdecuenta): ?>
+                     <?php foreach ($listaestadosdecuenta as $estadodecuenta): ?>
                       <tr class="odd gradeX">
-                       <td><?=$localizador->cvelocalizador; ?></td>
-                       <td><?=$localizador->titular; ?></td>
-                       <td><?php if($localizador->cancelado==0){echo "NO";}else{echo "CA";};?></td>      
-                       <td><?php if($localizador->pagado==0){echo "NO";}else{echo "P";};?></td>
+                       <td><?=$estadodecuenta->cvelocalizador; ?></td>
+                       <td><?=$estadodecuenta->titular; ?></td>
+                       <td><?=$estadodecuenta->montooriginal; ?></td>      
+                       <td><?=$estadodecuenta->acumulado; ?></td>
+                       <td><?=$estadodecuenta->saldo; ?></td>
                        <td align="center">
-                       <a href="<?=base_url(); ?>Localizadores/editar/<?php echo $localizador->idlocalizador; ?>" class="btn"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
-                       <a href="<?=base_url(); ?>Localizadores/cancelar/<?php echo $localizador->idlocalizador; ?>" class="btn" href="#"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
-                       <a href="<?=base_url(); ?>estadosdecuenta/" class="btn" href="#"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
-                      </td>
+                         <a href="<?=base_url(); ?>Estadosdecuenta/detalleEstadodeCuenta/<?php echo $estadodecuenta->idlocalizador; ?>" class="btn" href="#"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
+                       </td>
                       </tr> 
                      <?php endforeach ?>
                    <?php endif ?>                           

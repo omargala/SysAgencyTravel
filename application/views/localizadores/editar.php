@@ -9,7 +9,7 @@
       <div id="alertSection"></div>
        <div class="panel panel-primary">                       
         <div class="panel-heading">
-            <strong>Información de localizador</strong>
+            <strong>Información de localizador</strong><a href="<?=base_url(); ?>Localizadores" class="btn btn-success btn-right-in-panel"" type="button"><i class="fa fa-list" aria-hidden="true"></i> Lista Localizadores</a>
         </div>             
         <div class="panel-body">
          <div class="row">

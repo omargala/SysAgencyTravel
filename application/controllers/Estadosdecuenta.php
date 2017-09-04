@@ -10,12 +10,32 @@ class Estadosdecuenta extends CI_Controller {
    $this->load->helper(array('form', 'url'));
    $this->load->library('form_validation'); 
  }
-public function index()
-{
-	$this->load->view('head');
-	$this->load->view('menu');
-	$this->load->view('estadosdecuenta/estadosdecuenta');
-	$this->load->view('footer');
-}	
-	
+	public function index()
+	{
+		$data['listaestadosdecuenta'] = $this->estadosdecuentaModel->listaEstadosdeCuenta();
+		$this->load->view('head');
+		$this->load->view('menu');
+		$this->load->view('estadosdecuenta/estadosdecuenta',$data);
+		$this->load->view('footer');
+	}
+
+	public function detalleEstadodeCuenta(){
+		$idlocalizador = $this->uri->segment(3);
+		$data['detallelocalizador']=$this->localizadoresModel->getLocalizadorDetallado($idlocalizador);
+		$idedocta = $this->estadosdecuentaModel->getIddoctaporIdLocalizador($idlocalizador);	
+		$data['listadeabonos']=$this->abonosModel->getAbonosporIdEdoCta($idedocta);
+		if ($data['listadeabonos']->result()) {
+			$this->load->view('head');
+			$this->load->view('menu');
+			$this->load->view('estadosdecuenta/estadodecuenta',$data);
+			$this->load->view('footer');
+		}else{
+			$data['mensaje'] = " no se encontraró información de abonos";
+			$this->load->view('head');
+			$this->load->view('menu');
+			$this->load->view('estadosdecuenta/estadodecuenta',$data);
+			$this->load->view('footer');
+		}
+		
+	}	
 }

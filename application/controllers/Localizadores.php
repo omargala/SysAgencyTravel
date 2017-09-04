@@ -17,27 +17,24 @@ class Localizadores extends CI_Controller {
 		$this->load->view('localizadores/localizadores',$data);
 		$this->load->view('footer');		
 	}
-	public function nuevo(){
-		if ($_POST) {			
-			$this->localizadoresModel->agregarLocalizador();
-			$this->EstadosdecuentaModel->agregarEstadoCuenta();
-			header("Location:".base_url()."Localizadores");
-		}else{
-			$this->load->view('head');
-			$this->load->view('menu');
-			$this->load->view('localizadores/nuevo');
-			$this->load->view('footer');		
-		}
+
+	public function cancelar(){
+		$idlocalizador = $this->uri->segment(3);
+		$this->localizadoresModel->cancelaLocalizador($idlocalizador);
+		$this->estadosdecuentaModel->cancelaEstadoCuenta($idlocalizador);
+		header("Location:".base_url()."Localizadores");
 	}
+
 	public function editar(){
 		if ($_POST) {
-			$id = $this->input->post('id');
-			$this->localizadoresModel->updateLocalizador($id);
+			$idlocalizador = $this->input->post('id');
+			$this->localizadoresModel->updateLocalizador($idlocalizador);
+			$this->estadosdecuentaModel->updateEstadodecuenta($idlocalizador);
 			header("Location:".base_url()."Localizadores");
 		}else{
-			$id = $this->uri->segment(3);
-			if (isset($id)) {
-				$data['localizador'] = $this->localizadoresModel->getLocalizadorPorId($id);
+			$idlocalizador = $this->uri->segment(3);
+			if (isset($idlocalizador)) {
+				$data['localizador'] = $this->localizadoresModel->getLocalizadorPorId($idlocalizador);
 				$this->load->view('head');
 				$this->load->view('menu');
 				$this->load->view('localizadores/editar',$data);
@@ -47,4 +44,28 @@ class Localizadores extends CI_Controller {
 			}
 		}
 	}
+
+	public function nuevo(){
+		if ($_POST) {			
+			$this->localizadoresModel->agregarLocalizador();
+			$idlocalizador = $this->localizadoresModel->getUltimoLocalizador();
+			$this->estadosdecuentaModel->agregarEstadoCuenta($idlocalizador);
+			header("Location:".base_url()."Localizadores");
+		}else{
+			header("Location:".base_url()."Localizadores");
+		}
+	}
+	
+	public function ver(){		
+			$idlocalizador = $this->uri->segment(3);
+			if (isset($idlocalizador)) {
+				$data['localizador'] = $this->localizadoresModel->getLocalizadorDetallado($idlocalizador);
+				$this->load->view('head');
+				$this->load->view('menu');
+				$this->load->view('localizadores/ver',$data);
+				$this->load->view('footer');
+			}else{
+				header("Location:".base_url()."Localizadores");
+			}
+		}
 }

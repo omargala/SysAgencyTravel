@@ -17,14 +17,11 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-address-book-o" aria-hidden="true"></i> Localizadores <b class="caret"></b></a>
                 <ul class="dropdown-menu alert-dropdown">
                     <li>
-                        <a href="<?=base_url(); ?>Localizadores" id="lista"> Lista</a>
+                        <a href="<?=base_url(); ?>Localizadores" id="lista"> Lista de Localizadores</a>
                     </li>
                     <li>
                         <a href="<?=base_url(); ?>Localizadores/nuevo" id="nuevo"> Nuevo</a>
-                    </li>
-                    <li>
-                        <a href="<?=base_url(); ?>Localizadores/editar" id="editar"> Editar</span></a>
-                    </li>                  
+                    </li>                 
                     <li class="divider"></li>
                     <li>
                         <a href="#">Consulta avanzada</a>
@@ -35,10 +32,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-line-chart" aria-hidden="true"></i>Estados de Cuenta <b class="caret"></b></a>
                 <ul class="dropdown-menu alert-dropdown">
                     <li>
-                        <a href="<?=base_url(); ?>Localizadores" id="lista"> Lista</a>
-                    </li>
-                    <li>
-                        <a href="<?=base_url(); ?>Localizadores/nuevo" id="nuevo"> Nuevo</a>
+                        <a href="<?=base_url(); ?>Estadosdecuenta" id="lista"> Estados de Cuenta</a>
                     </li>
                     <li class="divider"></li>
                     <li>

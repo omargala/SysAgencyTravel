@@ -28,12 +28,13 @@
                       <tr class="odd gradeX">
                        <td><?=$localizador->cvelocalizador; ?></td>
                        <td><?=$localizador->titular; ?></td>
-                       <td><?php if($localizador->cancelado==0){echo "NO";}else{echo "CA";};?></td>      
-                       <td><?php if($localizador->pagado==0){echo "NO";}else{echo "P";};?></td>
+                       <td align="center"><strong class="<?php if($localizador->cancelado==1){echo "text-danger";} ?>"><?php if($localizador->cancelado==0){echo "NO";}else{echo "CA";};?></strong></td>      
+                       <td align="center"><strong class="<?php if($localizador->pagado==1){echo "text-success";} ?>"><?php if($localizador->pagado==0){echo "NO";}else{echo "P";};?></strong></td>
                        <td align="center">
-                       <a href="<?=base_url(); ?>Localizadores/editar/<?php echo $localizador->idlocalizador; ?>" class="btn"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
-                       <a href="<?=base_url(); ?>Localizadores/cancelar/<?php echo $localizador->idlocalizador; ?>" class="btn" href="#"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
-                       <a href="<?=base_url(); ?>estadosdecuenta/" class="btn" href="#"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
+                        <a data-toggle="tooltip" data-placement="top" title="Ver Detalle" type="button" class="btn" href="<?=base_url(); ?>Localizadores/ver/<?php echo $localizador->idlocalizador; ?>"><i class="fa fa-info-circle text-info" aria-hidden="true"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Editar" type="button" href="<?=base_url(); ?>Localizadores/editar/<?php echo $localizador->idlocalizador; ?>" class="btn"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" type="button" href="<?=base_url(); ?>Localizadores/cancelar/<?php echo $localizador->idlocalizador; ?>" class="btn <?php if($localizador->cancelado==1){echo 'disabled';} ?>"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Estado de Cuenta" type="button" href="<?=base_url(); ?>estadosdecuenta/" class="btn"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
                       </td>
                       </tr> 
                      <?php endforeach ?>
