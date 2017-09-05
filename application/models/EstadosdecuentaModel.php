@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class EstadosdecuentaModel extends CI_Model {
+	public $idedocta;
 	public $idlocalizador;
 	public $montooriginal;
 	public $acumulado;
@@ -16,6 +17,10 @@ class EstadosdecuentaModel extends CI_Model {
 		parent::__construct();
 		$this->load->database();
 		
+	}
+
+	function actualizarMontos($idedocta){
+
 	}
 
 	function agregarEstadoCuenta($idlocalizador){
@@ -72,19 +77,42 @@ class EstadosdecuentaModel extends CI_Model {
 	}
 
 	function getIddoctaporIdLocalizador($idlocalizador){
-		$this->db->select("idedocta");
+		$this->db->select("*");
 		$this->db->where('idlocalizador', (int) $idlocalizador);
 		$result = $this->db->get("tbedocta");
-		foreach ($result->result() as $dato) {
-		 $idedocta = $dato->idedocta;
-		}
-		return $idedocta;
+
+	
 	}
 
 	function listaEstadosdeCuenta(){
 		$this->db->join('tblocalizadores','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
 		$query = $this->db->get('tbedocta');
 		return $query->result();
+	}
+
+	function updateMontos($idedocta,$acumulado,$totalabonos){
+		$result = $this->getAbonosporIdEdoCta($idedocta);
+		foreach ($query as $dato) {
+			$this->idlocalizador    = $dato->idlocalizador;
+			$montooriginal          = $dato->montooriginal;
+			$this->acumulado        = $acumulado;
+			$this->fechacreacion    = $dato->fechacreacion;
+			$this->fechaultimoabono = $dato->fechaultimoabono;
+			$cantidadabonos   = $dato->cantidadabonos;
+			$this->cancelado        = $dato->cancelado;
+			$pagado          = (int) $dato->pagado;
+		}
+		$nuevosaldo = $montooriginal - $this->acumulado;  
+		$this->montooriginal = $montooriginal;
+		$this->saldo         = $nuevosaldo;
+		if($nuevosaldo==0.00){
+			$this->pagado = 1;
+		}else{
+			$this->pagado = (int) $pagado;
+		}
+		$this->cantidadabonos   = $totalabonos;
+		$this->db->where("idedocta",(int) $idedocta);
+	 $this->db->update("tbedocta",$this);	
 	}
 
 	function updateEstadodecuenta($idlocalizador){

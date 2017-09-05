@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Abono extends CI_Controller {
+class Abonos extends CI_Controller {
 
 	function __construct()
  {
@@ -16,11 +16,21 @@ class Abono extends CI_Controller {
 }*/
 
 	public function nuevo(){
-		if ($_POST) {
-			$this->abonosModel->agregarAbono($id);
-			header("Location:".base_url()."estadosdecuenta");
-		}else{
-			header("Location:".base_url()."estadosdecuenta");
-		}
+		 $data = array(
+		 	'abono'       => $this->input->post('abono'),
+		 	'modopago'    => $this->input->post('modopago'),
+		 	'abonadopor'  => strtoupper($this->input->post('abonadopor')),
+		 	'recibidopor' => strtoupper($this->input->post('recibidopor')),
+		 	'idedocta'    => $this->input->post('idedocta')
+		 );
+		 $this->abonosModel->agregarAbono($data);
+		 $acumulado   = $this->estadosdecuentaModel->getTotalAbonado($this->input->post('idedocta'));
+		 $totalabonos = $this->abonosModel->getTotalAbonos($this->input->post('idedocta'));
+		 $this->estadosdecuentaModel->updateMontos($this->input->post('idedocta'),$acumulado,$totalabonos);
+
+		 $response = array(
+		 	'mensaje' => "ok"
+		 );
+		 echo json_encode($response);
 	}
 }

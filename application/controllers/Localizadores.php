@@ -52,7 +52,10 @@ class Localizadores extends CI_Controller {
 			$this->estadosdecuentaModel->agregarEstadoCuenta($idlocalizador);
 			header("Location:".base_url()."Localizadores");
 		}else{
-			header("Location:".base_url()."Localizadores");
+			$this->load->view('head');
+			$this->load->view('menu');
+			$this->load->view('localizadores/nuevo');
+			$this->load->view('footer');
 		}
 	}
 	

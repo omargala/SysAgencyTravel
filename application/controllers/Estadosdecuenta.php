@@ -24,6 +24,7 @@ class Estadosdecuenta extends CI_Controller {
 		$data['detallelocalizador']=$this->localizadoresModel->getLocalizadorDetallado($idlocalizador);
 		$idedocta = $this->estadosdecuentaModel->getIddoctaporIdLocalizador($idlocalizador);	
 		$data['listadeabonos']=$this->abonosModel->getAbonosporIdEdoCta($idedocta);
+
 		if ($data['listadeabonos']->result()) {
 			$this->load->view('head');
 			$this->load->view('menu');

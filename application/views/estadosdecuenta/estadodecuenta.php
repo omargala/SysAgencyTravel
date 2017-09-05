@@ -1,7 +1,7 @@
 <div id="page-wrapper">
 <?php foreach ($detallelocalizador as $dato): ?>
   <div class="row">
-   <div id="datosparaabonos" class="col-md-12">
+   <div id="datosparaabonos" class="col-md-12" data-set="<?php echo base_url(); ?>">
     <div class="panel-default">
      <div class="panel-body">
        <div class="col-md-6">
@@ -59,8 +59,7 @@
         <div class="panel panel-primary">
          <div class="panel-heading">Abonar a Cuenta</div>
           <div class="panel-body">
-           <form action="<?php echo base_url(); ?>abonos/nuevo" class="form">  
-           <input type="text" class="form-control hidden" value="<?php echo $dato->idedocta; ?>">                              
+           <form role="form" class="form">                               
             <div class="form-group">
               <select name="mododepagoabono" id="mododepagoabono"  class="form-control">
                 <option value="mp" class="form-control">Modo de pago:</option>
@@ -82,7 +81,7 @@
                <input id="montoabono" name="montoabono" class="form-control" type="text" placeholder="Abono: $5,400.00" style="text-align: right;" required><span class="input-group-addon">.00</span>
               </div>   
             </div> 
-            <div class="form-group"><a class="btn btn-primary btn-lg btn-block" id="guardaAbono" href="#">Guardar</a></div>
+            <div class="form-group"><a class="btn btn-primary btn-lg btn-block" id="guardaAbono" data-set="<?php echo $dato->idlocalizador ?>" href="#">Guardar</a></div>
            </form>
            <span id="1"></span>
            <span id="2"></span>
@@ -143,7 +142,7 @@
                  </tr>
                 </thead>
                 <tbody></tbody>
-               </table>
+               </tabl>
               </div>
             </div>
            </div>
@@ -155,4 +154,4 @@
    </div>  
   </div>                    
 </div>
-<script src="js/estadodecuenta.js"></script>
+<script src="<?php echo base_url(); ?>js/estadosdecuenta/funciones.js"></script>

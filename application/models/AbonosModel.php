@@ -7,7 +7,7 @@ class AbonosModel extends CI_Model {
 	public $recibidopor;
 	public $montoabono;
 	public $modopagoabono;
-	public $statusabono;
+	public $cancelado;
 	public $fechaabono;
 
 	public function __construct()
@@ -17,13 +17,13 @@ class AbonosModel extends CI_Model {
 		
 	}
 
-	function agregarAbono(){
-		$this->idedocta      = $_POST['idedocta'];
-		$this->abonadopor    = $_POST['abonadopor'];
-		$this->recibidopor   = $_POST['recibidopor'];
-		$this->montoabono    = $_POST['montoabono'];
+	function agregarAbono($data){
+		$this->idedocta      = $data['idedocta'];
+		$this->abonadopor    = $data['abonadopor'];
+		$this->recibidopor   = $data['recibidopor'];
+		$this->montoabono    = $data['abono'];
 		$this->fechaabono    = date("Y-m-d");
-		$this->modopagoabono = $_POST['mododepagoabono'];
+		$this->modopagoabono = $data['modopago'];
 		$this->cancelado     = 0;
 		$this->db->insert("tbdetalleedocta",$this);
 	}
@@ -57,11 +57,21 @@ class AbonosModel extends CI_Model {
 		$this->db->where('tbdetalleedocta.idedocta',(int) $idedocta);
 		$query = $this->db->get('tbdetalleedocta');
 		return $query;
-
 	}
-
+function getTotalAbonado($idedocta){
+	$this->db->select_sum("montoabono");
+	$this->db->where("idedocta",$idedocta);
+	$acumulado = $this->db->get("tbdetalleedocta");
+	return $acumulado;
+}
+function getTotalAbonos($idedocta){
+	$this->db->select();
+	$this->db->where("idedocta",$idedocta);
+	$query = $this->db->get("tbdetalleedocta");
+	$TotalAbonos = count($query->result());
+	return $TotalAbonos;
+}
 	function updateEstadodecuenta($idlocalizador){
-		/*
 		$result = $this->getEstadosDeCuentaporIdlocalizador($idlocalizador);
 		foreach ($result as $dato) {
 			$this->idlocalizador     = $dato->idlocalizador;
@@ -79,7 +89,7 @@ class AbonosModel extends CI_Model {
 			$this->cancelado = 0;
 		}
 		$this->db->where("idlocalizador",(int) $idlocalizador);
-	 $this->db->update("tbedocta",$this);	*/
+	 $this->db->update("tbedocta",$this);
 	}
 
 }
