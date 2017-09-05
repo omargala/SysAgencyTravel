@@ -19,10 +19,6 @@ class EstadosdecuentaModel extends CI_Model {
 		
 	}
 
-	function actualizarMontos($idedocta){
-
-	}
-
 	function agregarEstadoCuenta($idlocalizador){
 		$this->idlocalizador= $idlocalizador;
 		$this->montooriginal= $_POST['tarifa'];
@@ -50,6 +46,7 @@ class EstadosdecuentaModel extends CI_Model {
 	function cancelaEstadoCuenta($idlocalizador){
 		$result = $this->getEstadosDeCuentaporId($idlocalizador);
 		foreach ($result as $dato) {
+			$this->idedocta         = $dato->idedocta;
 			$this->idlocalizador    = $dato->idlocalizador;
 			$this->montooriginal    = $dato->montooriginal;
 			$this->acumulado        = $dato->acumulado;
@@ -76,12 +73,16 @@ class EstadosdecuentaModel extends CI_Model {
 		return $query->result();
 	}
 
-	function getIddoctaporIdLocalizador($idlocalizador){
-		$this->db->select("*");
-		$this->db->where('idlocalizador', (int) $idlocalizador);
-		$result = $this->db->get("tbedocta");
+	function getEstadoDeCuentaporIdEdoCta($idedocta){
+		$this->db->where('idedocta',(int) $idedocta);
+		$query = $this->db->get('tbedocta');
+		return $query;
+	}
 
-	
+	function getIddoctaporIdLocalizador($idlocalizador){
+		$this->db->where('idlocalizador',$idlocalizador);
+		$result = $this->db->get("tbedocta");
+		return $result;
 	}
 
 	function listaEstadosdeCuenta(){
@@ -91,15 +92,16 @@ class EstadosdecuentaModel extends CI_Model {
 	}
 
 	function updateMontos($idedocta,$acumulado,$totalabonos){
-		$result = $this->getAbonosporIdEdoCta($idedocta);
-		foreach ($query as $dato) {
+		$result = $this->getEstadoDeCuentaporIdEdoCta($idedocta);
+		foreach ($result->result() as $dato) {
+			$this->idedocta         = $idedocta;
 			$this->idlocalizador    = $dato->idlocalizador;
 			$montooriginal          = $dato->montooriginal;
 			$this->acumulado        = $acumulado;
 			$this->fechacreacion    = $dato->fechacreacion;
 			$this->fechaultimoabono = $dato->fechaultimoabono;
 			$cantidadabonos   = $dato->cantidadabonos;
-			$this->cancelado        = $dato->cancelado;
+			$this->cancelado        = (int) $dato->cancelado;
 			$pagado          = (int) $dato->pagado;
 		}
 		$nuevosaldo = $montooriginal - $this->acumulado;  
@@ -112,12 +114,13 @@ class EstadosdecuentaModel extends CI_Model {
 		}
 		$this->cantidadabonos   = $totalabonos;
 		$this->db->where("idedocta",(int) $idedocta);
-	 $this->db->update("tbedocta",$this);	
+	 $this->db->update("tbedocta",$this);
 	}
 
 	function updateEstadodecuenta($idlocalizador){
 		$result = $this->getEstadosDeCuentaporIdlocalizador($idlocalizador);
 		foreach ($result as $dato) {
+			$this->idedocta          = $dato->idedocta;
 			$this->idlocalizador     = $dato->idlocalizador;
 			$this->montooriginal     = $_POST['tarifa'];
 			$this->acumulado         = $dato->acumulado;

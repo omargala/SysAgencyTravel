@@ -81,7 +81,7 @@
                <input id="montoabono" name="montoabono" class="form-control" type="text" placeholder="Abono: $5,400.00" style="text-align: right;" required><span class="input-group-addon">.00</span>
               </div>   
             </div> 
-            <div class="form-group"><a class="btn btn-primary btn-lg btn-block" id="guardaAbono" data-set="<?php echo $dato->idlocalizador ?>" href="#">Guardar</a></div>
+            <div class="form-group"><a class="btn btn-primary btn-lg btn-block <?php if($dato->saldo==0){echo "disabled";} ?>" id="guardaAbono" data-set="<?php echo $dato->idlocalizador ?>" href="#">Guardar</a></div>
            </form>
            <span id="1"></span>
            <span id="2"></span>
@@ -114,7 +114,26 @@
                        <th>...</th>
                     </tr>                  
                 </thead>
-                <tbody>
+                <tbody>  
+                 <?php 
+                  $contp=0;
+                  foreach ($listadeabonos->result() as $valor): 
+                  if($valor->cancelado==0){
+                    $contp+=1;
+                 ?>
+                  <tr>
+                   <td><?php echo $contp; ?></td>
+                   <td><?php echo $valor->fechaabono; ?></td>
+                   <td><?php echo $valor->montoabono; ?></td>                  
+                   <td align="center">
+                      <a class="btn" href="<?php echo base_url(); ?>abonos/ver/<?php echo $valor->idabono; ?>/<?php echo $valor->idedocta; ?>"><i class="fa fa-eye text-info" aria-hidden="true"></i></a>
+                      <a class="btn" href="<?php echo base_url(); ?>abonos/editar/<?php echo $valor->idabono; ?>/<?php echo $valor->idedocta; ?>"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
+                      <a class="btn" href="<?php echo base_url(); ?>abonos/cancelar/<?php echo $valor->idabono; ?>/<?php echo $valor->idedocta; ?>"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
+                    </td>                 
+                  </tr>
+                 <?php 
+                  }
+                 endforeach ?>
                 </tbody>
               </table>
              </div>
@@ -128,7 +147,25 @@
                        <th>...</th>
                    </tr>
                </thead>
-               <tbody></tbody>
+               <tbody>
+                  <?php 
+                    $contc = 0;
+                    foreach ($listadeabonos->result() as $valor): 
+                    if($valor->cancelado==1){
+                      $contc+=1;
+                  ?>
+                  <tr>
+                   <td><?php echo $contc; ?></td>
+                   <td><?php echo $valor->fechaabono; ?></td>
+                   <td><?php echo $valor->montoabono; ?></td>
+                   <td>
+                     <a class="btn" href="<?php echo base_url(); ?>abonos/editar/<?php echo $valor->idabono; ?>/<?php echo $valor->idedocta; ?>"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
+                   </td>
+                  </tr>
+                 <?php 
+                  }
+                 endforeach ?>                      
+               </tbody>
               </table>
              </div>
               <div role="tabpanel" class="tab-pane" id="todos">
@@ -141,8 +178,21 @@
                   <th>...</th>
                  </tr>
                 </thead>
-                <tbody></tbody>
-               </tabl>
+                <tbody> 
+                  <?php 
+                    $cont = 0;
+                    foreach ($listadeabonos->result() as $valor): 
+                    $cont+=1;
+                  ?>
+                  <tr>
+                   <td><?php echo $cont ?></td>
+                   <td><?php echo $valor->fechaabono; ?></td>
+                   <td><?php echo $valor->montoabono; ?></td>
+                   <td><?php if($valor->cancelado==1){echo "<strong class='text-danger'>CA</strong>";}else{echo "<strong class='text-success'>P</strong>";} ?></td>
+                  </tr>
+                 <?php endforeach ?>               
+                </tbody>
+               </table>
               </div>
             </div>
            </div>

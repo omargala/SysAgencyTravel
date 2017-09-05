@@ -39,7 +39,19 @@
                         <a href="#">Consulta avanzada</a>
                     </li>
                 </ul>
-            </li>                    
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-line-chart" aria-hidden="true"></i>Abonos<b class="caret"></b></a>
+                <ul class="dropdown-menu alert-dropdown">
+                    <li>
+                        <a href="<?=base_url(); ?>abonos" id="lista"> Lista</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">Consulta avanzada</a>
+                    </li>
+                </ul>
+            </li>                        
             <li>
                 <a href="<?=base_url(); ?>Reportes" id="Reportes"><i class="fa fa-fw fa-line-chart"></i> Reportes</a>
             </li>

@@ -15,7 +15,6 @@ class LocalizadoresModel extends CI_Model {
 	public $menores;
 	public $cancelado;
 	public $fechacreacion;
-	public $pagado;
 
 	public function __construct()
 	{
@@ -39,7 +38,6 @@ class LocalizadoresModel extends CI_Model {
 		$this->adultos  			  = $_POST['adultos'];
 		$this->menores  			  = $_POST['menores'];
 		$this->cancelado     = 0;
-		$this->pagado        = 0;
 		$this->fechacreacion = date("Y-m-d");
 		if($this->db->insert("tblocalizadores",$this)){
 			if($this->db->affected_rows()){
@@ -66,7 +64,6 @@ class LocalizadoresModel extends CI_Model {
 			$this->planalimentos = $dato->planalimentos;
 			$this->adultos  			  = $dato->adultos;
 			$this->menores  			  = $dato->menores;
-			$this->pagado        = (int) $dato->pagado;
 			$this->fechacreacion = $dato->fechacreacion;
 			$this->cancelado     = 1;
 		}
@@ -82,12 +79,14 @@ class LocalizadoresModel extends CI_Model {
 	}
 
 	function getLocalizadorPorId($idlocalizador){
-		$this->db->where('idlocalizador',(int) $idlocalizador);
+		$this->db->join('tbedocta','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
+		$this->db->where('tblocalizadores.idlocalizador',(int) $idlocalizador);
 		$query = $this->db->get('tblocalizadores');
 		return $query->result();
 	}
 	
 	function getUltimoLocalizador(){
+		 $this->db->join('tbedocta','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
 			$this->db->select_max('idlocalizador');
 			$result = $this->db->get('tblocalizadores');
 			foreach ($result->result() as $r) {
@@ -97,6 +96,7 @@ class LocalizadoresModel extends CI_Model {
 	}
 	
 	function listaLocalizadores(){
+		$this->db->join('tbedocta','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
 		$query = $this->db->get("tblocalizadores");
 		if($query->num_rows()>0) return $query->result();
 		return false;
@@ -124,7 +124,6 @@ class LocalizadoresModel extends CI_Model {
 		}			
 		
 		foreach ($result as $dato) {
-			$this->pagado          = (int) $dato->pagado;
 			$this->fechacreacion   = $dato->fechacreacion;
 		}
 		$this->db->where("idlocalizador",(int) $idlocalizador);

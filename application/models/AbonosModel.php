@@ -29,68 +29,68 @@ class AbonosModel extends CI_Model {
 	}
 
 	function cancelaAbono($id){
-		/*$result = $this->getEstadosDeCuentaporId($id);
-		foreach ($result as $dato) {
-			$this->idlocalizador    = $dato->idlocalizador;
-			$this->montooriginal    = $dato->montooriginal;
-			$this->acumulado        = $dato->acumulado;
-			$this->fechacreacion    = $dato->fechacreacion;
-			$this->saldo            = $dato->saldo;
-			$this->fechaultimoabono = $dato->fechaultimoabono;
-			$this->cantidadabonos   = $dato->cantidadabonos;
-			$this->cancelado        = 1;
-			$this->pagado           = (int) $dato->pagado;
+		$result = $this->getAbonoporId($id);
+		foreach ($result->result() as $dato) {
+			$this->idabono       = $dato->idabono;
+			$this->idedocta      = $dato->idedocta;
+			$this->abonadopor    = $dato->abonadopor;
+			$this->recibidopor   = $dato->recibidopor;
+			$this->montoabono    = $dato->montoabono;
+			$this->fechaabono    = $dato->fechaabono;
+			$this->modopagoabono = $dato->modopagoabono;
+			$this->cancelado     = 1;
 		}
-		print_r($this);
-		$this->db->where("idedocta",(int) $id);
-		$this->db->update("tbedocta",$this);*/
+		$this->db->where("idabono",(int) $id);
+		$this->db->update("tbdetalleedocta",$this);
 	}
 
 	function listaAbonos(){
 		$this->db->join('tbdetalleedocta','tbedocta.idedocta = tbdetalleedocta.idedocta');
+		$this->db->join('tblocalizadores','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
 		$query = $this->db->get('tbedocta');
 		return $query->result();
 	}
-
-	function getAbonosporIdEdoCta($idedocta){	
-		$this->db->join('tbedocta','tbdetalleedocta.idedocta = tbedocta.idedocta');
-		$this->db->where('tbdetalleedocta.idedocta',(int) $idedocta);
+ function getAbonoporId($idabono){
+ 	$this->db->where('idabono',$idabono);
+		$query = $this->db->get('tbdetalleedocta');
+		return $query;
+ }
+	function getAbonosporIdEdoCta($idedocta){		
+		$this->db->where('idedocta',(int)$idedocta);
 		$query = $this->db->get('tbdetalleedocta');
 		return $query;
 	}
 function getTotalAbonado($idedocta){
 	$this->db->select_sum("montoabono");
 	$this->db->where("idedocta",$idedocta);
-	$acumulado = $this->db->get("tbdetalleedocta");
-	return $acumulado;
+	$this->db->where("cancelado",0);
+	$query = $this->db->get("tbdetalleedocta");
+	return $query->row()->montoabono;
 }
 function getTotalAbonos($idedocta){
 	$this->db->select();
 	$this->db->where("idedocta",$idedocta);
+	$this->db->where("cancelado",0);
 	$query = $this->db->get("tbdetalleedocta");
 	$TotalAbonos = count($query->result());
 	return $TotalAbonos;
 }
-	function updateEstadodecuenta($idlocalizador){
-		$result = $this->getEstadosDeCuentaporIdlocalizador($idlocalizador);
-		foreach ($result as $dato) {
-			$this->idlocalizador     = $dato->idlocalizador;
-			$this->montooriginal     = $_POST['tarifa'];
-			$this->acumulado         = $dato->acumulado;
-			$this->fechacreacion     = $dato->fechacreacion;
-			$this->saldo             = $this->calculaNuevoSaldo($this->montooriginal,$this->acumulado);
-			$this->cantidadabonos    = $dato->cantidadabonos;
-			$this->fechaultimoabono  = $dato->fechaultimoabono;
-			$this->pagado            = (int) $dato->pagado;
-		}
-		if(isset($_POST['canceladoLocalizador'])){
-			$this->cancelado  = (int) $_POST['canceladoLocalizador'];
+function updateAbono(){
+		$this->idabono      = $_POST['idabono'];
+		$this->idedocta      = $_POST['idedocta'];
+		$this->abonadopor    = strtoupper($_POST['abonadopor']);
+		$this->recibidopor   = strtoupper($_POST['recibidopor']);
+		$this->montoabono    = $_POST['montoabono'];
+		$this->fechaabono    = $_POST['fechaabono'];
+		$this->modopagoabono = $_POST['modopagoabono'];
+		if(isset($_POST['cancelado'])){
+			$this->cancelado    = (int) $_POST['cancelado'];
 		}else{
-			$this->cancelado = 0;
+			$this->cancelado    = 0;
 		}
-		$this->db->where("idlocalizador",(int) $idlocalizador);
-	 $this->db->update("tbedocta",$this);
-	}
+		$this->db->where("idabono",$this->idabono);
+		$this->db->update("tbdetalleedocta",$this);
+}
 
 }
 ?>

@@ -22,9 +22,11 @@ class Estadosdecuenta extends CI_Controller {
 	public function detalleEstadodeCuenta(){
 		$idlocalizador = $this->uri->segment(3);
 		$data['detallelocalizador']=$this->localizadoresModel->getLocalizadorDetallado($idlocalizador);
-		$idedocta = $this->estadosdecuentaModel->getIddoctaporIdLocalizador($idlocalizador);	
+		$result = $this->estadosdecuentaModel->getIddoctaporIdLocalizador($idlocalizador);	
+		foreach ($result->result() as $dato) {
+			$idedocta = $dato->idedocta;
+		}
 		$data['listadeabonos']=$this->abonosModel->getAbonosporIdEdoCta($idedocta);
-
 		if ($data['listadeabonos']->result()) {
 			$this->load->view('head');
 			$this->load->view('menu');

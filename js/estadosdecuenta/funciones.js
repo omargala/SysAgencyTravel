@@ -8,7 +8,7 @@ $("#guardaAbono").click(function(){
         'abonadopor' : $("#abonadopor").val(),
         'recibidopor' : $("#recibidopor").val(),
         'idedocta' : $("#estadodecuenta").val()
-        }
+        }       
         var url = base_url+"abonos/nuevo";  
         $.ajax({
             url: url,
