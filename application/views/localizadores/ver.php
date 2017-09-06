@@ -16,7 +16,7 @@
           <div class="col-md-12"> 
            <div id="alertLocalizador"></div> 
             <ul class="list-group">                                            
-              <?php foreach ($localizador as $valor){ ?>
+              <?php foreach ($localizador as $valor): ?>
                <li class="list-group-item"><strong class="text-primary">Clave del Localizador: </strong> <?php echo $valor->cvelocalizador ?></li>
                <li class="list-group-item"><strong class="text-primary">Titular: </strong> <?php echo $valor->titular ?></li>
                <li class="list-group-item"><strong class="text-primary">Ttoo: </strong> <?php echo $valor->ttoo ?></li>
@@ -33,7 +33,6 @@
                <li class="list-group-item"><strong class="text-primary">Cancelado: </strong> <?php echo $valor->cancelado ?></li>
                <li class="list-group-item"><strong class="text-primary">Fecha de Alta: </strong> <?php echo $valor->fechacreacion ?></li>
                <li class="list-group-item"><strong class="text-primary">Pagado: </strong> <?php echo $valor->pagado ?></li>
-              <?php } ?>
              </ul>
            </div>
           </div>
@@ -49,6 +48,7 @@
          <div class="row">
           <div class="col-md-12"> 
            <div id="alertLocalizador"></div>
+            <ul class="list-group">
                <li class="list-group-item"><strong class="text-primary">Monto a pagar: $</strong> <?php echo $valor->montooriginal ?></li>
                <li class="list-group-item"><strong class="text-primary">Total de pagos realizados: $</strong> <?php echo $valor->acumulado ?></li>
                <li class="list-group-item"><strong class="text-primary">Saldo: $</strong> <?php echo $valor->saldo ?></li>

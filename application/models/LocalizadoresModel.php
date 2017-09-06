@@ -86,7 +86,6 @@ class LocalizadoresModel extends CI_Model {
 	}
 	
 	function getUltimoLocalizador(){
-		 $this->db->join('tbedocta','tbedocta.idlocalizador = tblocalizadores.idlocalizador');
 			$this->db->select_max('idlocalizador');
 			$result = $this->db->get('tblocalizadores');
 			foreach ($result->result() as $r) {

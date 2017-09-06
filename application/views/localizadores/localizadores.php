@@ -34,7 +34,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Ver Detalle" type="button" class="btn" href="<?=base_url(); ?>Localizadores/ver/<?php echo $localizador->idlocalizador; ?>"><i class="fa fa-info-circle text-info" aria-hidden="true"></i></a>
                         <a data-toggle="tooltip" data-placement="top" title="Editar" type="button" href="<?=base_url(); ?>Localizadores/editar/<?php echo $localizador->idlocalizador; ?>" class="btn"><i class="fa fa-pencil text-primary" aria-hidden="true"></i></a>
                         <a data-toggle="tooltip" data-placement="top" title="Cancelar" type="button" href="<?=base_url(); ?>Localizadores/cancelar/<?php echo $localizador->idlocalizador; ?>" class="btn <?php if($localizador->cancelado==1){echo 'disabled';} ?>"><i class="fa fa-times text-danger" aria-hidden="true"></i></a>
-                        <a data-toggle="tooltip" data-placement="top" title="Estado de Cuenta" type="button" href="<?=base_url(); ?>estadosdecuenta/" class="btn"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
+                        <a data-toggle="tooltip" data-placement="top" title="Estado de Cuenta" type="button" href="<?=base_url(); ?>estadosdecuenta/detalleEstadodeCuenta/<?php echo $localizador->idlocalizador; ?>" class="btn"><i class="fa fa-line-chart text-success" aria-hidden="true"></i></a>  
                       </td>
                       </tr> 
                      <?php endforeach ?>

@@ -2,14 +2,14 @@
  <div class="row">
   <div class="col-md-12">
     <div class="col-lg-12">
-      <h2 class="page-header"><span class="text-white">Información Detallada del Localizador</span></h2>
+      <h2 class="page-header"><span class="text-white">Detalle del Abono</span></h2>
     </div>
     <div class="row">
      <div class="col-md-12">
       <div id="alertSection"></div>
        <div class="panel panel-primary">                       
         <div class="panel-heading">
-            <strong>Información del localizador</strong><a href="<?=base_url(); ?>Localizadores" class="btn btn-success btn-right-in-panel"" type="button"><i class="fa fa-list" aria-hidden="true"></i> Lista Localizadores</a>
+            <strong>Información del abono</strong><a href="<?=base_url(); ?>abonos" class="btn btn-success btn-right-in-panel"" type="button"><i class="fa fa-list" aria-hidden="true"></i> Lista Abonos</a>
         </div>             
         <div class="panel-body">
          <div class="row">
