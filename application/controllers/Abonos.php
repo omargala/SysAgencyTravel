@@ -45,6 +45,7 @@ class Abonos extends CI_Controller {
 			$idabono = $this->uri->segment(3);
 			$idedocta = $this->uri->segment(4);
 			if(isset($idabono)){
+				$data['idedocta'] = $idedocta;
 				$data["abono"] = $this->abonosModel->getAbonoporId($idabono);
 				if($data["abono"]->result()){
 					$this->load->view('head');
@@ -87,6 +88,7 @@ class Abonos extends CI_Controller {
 		$idabono = $this->uri->segment(3);
 		$idedocta = $this->uri->segment(4);
 		if(isset($idabono)){
+			$data['idedocta'] = $idedocta;
 			$data['datos'] = $this->abonosModel->getAbonoporId($idabono);
 			$this->load->view('head');
 			$this->load->view('menu');
